@@ -3,6 +3,10 @@
 
 This api implements a simple table called *BeTweenApi*, this table contains everything implemented in this library.
 
+[![ContentDB](https://content.minetest.net/packages/_gianpy_/api_between/shields/downloads/)](https://content.minetest.net/packages/_gianpy_/api_between/)
+
+![](https://img.shields.io/github/license/GianptDev/between-api-minetest)
+
 | Property      | Description |
 | ------------- | ----------- |
 | *active_tweens* | This is a list of all running tweens, when a tween has started is inserted in this list until is stopped. |
