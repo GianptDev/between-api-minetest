@@ -26,7 +26,7 @@ BeTweenApi = {
 
 			local player = minetest.get_player_by_name(player_name)
 			local index = 0
-			local start, finish = 32, 400
+			local start, finish = 32, 256
 			local scale = { x = 2, y = 2}
 
 			local visual = {
@@ -79,7 +79,7 @@ BeTweenApi = {
 					hud_elem_type = "text",
 					text      = tostring(_),
 					position = { x = 0, y = 0 },
-					offset = { x = 460, y = y },
+					offset = { x = finish + 32, y = y },
 					alignment = { x = 1, y = 0 },
 					number    = 0xFFFFFF,
 					style     = 1,
@@ -361,8 +361,8 @@ minetest.register_chatcommand(
 	"between",
 	{
 		description = "Toggle the debug hud of this api to the calling player.",
-		func = function (name, _)
-			
+		func = function (name, param)
+
 			if (BeTweenApi.debug.player_huds[name] == nil) then
 				BeTweenApi.debug:show_functions(name)
 			else
