@@ -9,6 +9,10 @@ This is a mod that implements interpolation functions and tween for animation in
 
 This mod can be used by other mods for animations, currently tested for huds.
 
+[![ContentDB](https://content.minetest.net/packages/_gianpy_/api_between/shields/downloads/)](https://content.minetest.net/packages/_gianpy_/api_between/)
+
+![](https://img.shields.io/github/license/GianptDev/between-api-minetest)
+
 ![showcase](resources/showcase.gif)
 
 ## Installation
