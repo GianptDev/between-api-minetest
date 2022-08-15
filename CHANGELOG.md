@@ -13,3 +13,7 @@
 - /between command now require debug privileges and can display multiple things.
 - changed the logo.
 
+
+# 1.1.1 (wip)
+
+- added elastic_in, elastic_out interpolation functions.

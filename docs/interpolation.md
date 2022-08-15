@@ -3,6 +3,12 @@
 
 **BeTweenApi.interpolation** is a table that contain interpolation functions, here are listed all of the and what their porpuse is for.
 
+Each function require a start and end movement to interpolate and the position in time, or something like this:
+
+	function (start: number, end: number, time: float) : number
+
+Currently interpolation can be done only with numbers (float and integer).
+
 | Function | Description |
 | -------- | ----------- |
 | linear   | straight increment from x to y in time. |
