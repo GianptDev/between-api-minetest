@@ -26,3 +26,5 @@ Documentation about using the features of the api is written in the [docs](/docs
 ## Contribute
 
 If you want to add more easing functions or want to ask about a specific feature, ask in the [Issues](https://github.com/GianptDev/between-api-minetest/issues) panel.
+
+See also [CONTRIBUTING.md](/CONTRIBUTING.md)

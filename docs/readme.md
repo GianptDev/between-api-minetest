@@ -1,5 +1,5 @@
 
-# BeTween Api
+# BeTween Api 1.1
 
 This api implements a simple table called *BeTweenApi*, this table contains everything implemented in this library.
 
@@ -20,5 +20,5 @@ This api implements a simple table called *BeTweenApi*, this table contains ever
 
 | Name | Description |
 | ---- | ----------- |
-| /between | Show a debug hud to display all defined tween animations, require no privileges and the hud is displayed only from the calling player. |
+| /between | Show a debug hud to display a topic of the api, require debug privileges to be executed. |
 

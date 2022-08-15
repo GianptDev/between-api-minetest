@@ -8,24 +8,22 @@ The tween object is a table that contain informations and callbacks about an int
 | *method*: function | The method the Tween is using. |
 | *value_start*: number | The start value of the interpolation. |
 | *value_end*: number | The final value of the interpolation. |
-| *time_end*: float | The time of the interpolation in seconds. |
-| *timer*: float | Current time of the interpolation. |
-| *loop*: bool | If the Tween should loop.
+| *time*: float | The total time of the interpolation in seconds. |
+| *timer*: float | Current time of the interpolation in seconds. |
+| *loop*: bool - int | If the tween should loop for how many times. |
 
-	BeTweenApi.tween(method: function, from: number, to: number, time: float, loop: bool, callbacks: table)
+	BeTweenApi.tween(method: function, movement: table[number], time: float, loop: bool | int, callbacks: table) : Tween
 
 This method will create a new Tween object.
 
 - *method* is the interpolation function to use, see [BeTweenApi.interpolation](interpolation.md) for functions to use.
 You can define a custom function here too, make sure it ask for 3 argouments.
 
-- *from* is the initial value of the interpolation.
-
-- *to* is the final value of the interpolation.
+- *movement* a list that contain the start position and the destination of the interpolation.
 
 - *time* is the time in seconds of how much this tween must run.
 
-- *loop* set if the Tween must automatically restart when it finish it, this will make the Tween run forever until manually stopped.
+- *loop* set if the tween should loop his interpolation when he finish it, if is true the tween will loop forever, if is a number the tween will loop for the specified amount.
 
 - *callbacks* is a list of methods called on Tween events, each callback give the tween itself.
 
@@ -67,11 +65,11 @@ Usage example:
 
 	local tween = InterpolationApi.tween(
 		InterpolationApi.interpolation.linear,	-- linear movement
-		0,		-- from 0
-		64,		-- to 64
-		4.0,	-- in 4 seconds
-		true,	-- repeat after the time
+		{ 0, 64 },	-- from 0 to 64
+		4.0,		-- in 4 seconds
+		true,		-- repeat after the time
 		{
+			-- execute this method each step in time.
 			on_step = function (step, tween)
 				local item = player:hud_get(icon)
 				player:hud_change(icon, "offset", { x = step, y = 32 })

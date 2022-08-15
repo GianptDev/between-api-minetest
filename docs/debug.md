@@ -5,20 +5,31 @@ This is a table that contain debug visual stuff.
 
 | Property | Description |
 | -------- | ----------- |
-| player_huds | List of all players that uses debug visuals, each item uses as a key the player name and as a value the title id of the hud and the tweens used for debug.
+| hud_interpolation | List of all players that use the function list hud. |
+| hud_running_tweens | List of all players that use the tween list hud. |
 
-## debug:show(player_name: string)
+## debug:show_functions(player_name: string)
 
 Display all defined interpolations functions on screen with some animated images and the interpolation name.
 
 *player_name* is the player wich will see the hud.
 
-If the player has already the hud visible a log message will be printed instead.
+## debug:hide_functions(player_name: string)
 
-## debug:hid(player_name: string)
-
-Do the opposite of **debug:show**, will hide the hud visual.
+Do the opposite of **debug:show_functions**, will hide the hud visual.
 
 *player_name* is the player wich the hud will be removed.
 
-If the player has already the hud disabled a log message will be printed instead.
+## debug:show_tweens(player_name: string)
+
+Display all running tweens in the game as a table.
+
+The first row is about the tween and his process index, the second row is about what interpolation method is used and the last row is about if the tween is looping and his current timer.
+
+*player_name* is the player wich will see the hud.
+
+## debug:hide_tweens(player_name: string)
+
+Do the opposite of **debug:show_tweens**, will hide the hud visual.
+
+*player_name* is the player wich the hud will be removed.
