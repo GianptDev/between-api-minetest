@@ -19,7 +19,7 @@ minetest.register_chatcommand(
 					BeTweenApi.debug:hide_functions(name)
 				end
 
-				return true, "Toggled functions view."
+				return true
 			
 			elseif (param == "tweens") then
 				if (BeTweenApi.debug.hud_running_tweens[name] == nil) then
@@ -28,10 +28,10 @@ minetest.register_chatcommand(
 					BeTweenApi.debug:hide_tweens(name)
 				end
 
-				return true, "Toggled tweens view."
+				return true
 			end
 
-			return true, "BeTween Api v1.1"
+			return true, "BeTween Api v1.1.1"
 		end
 	}
 )

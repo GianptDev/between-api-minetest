@@ -16,4 +16,27 @@
 
 # 1.1.1 (wip)
 
-- added elastic_in, elastic_out interpolation functions.
+- added javadocs in code definitions.
+- debug function list now show functions count and replaced the icon of the preview from the heart in favor of geometry dash characters.
+- - debug heart icon RIP (2022-2022)
+- debug running tweens now look nicer and prevent to display too much info (max 20 tweens on screen) because it could lead to lag.
+- tweens output a server log message when started or stopped, the message is not visible to the players.
+- replacing all 3.14 number in favor of math.pi -_-
+- tweens now have a new callback event:
+- - on_loop
+- added interpolation functions:
+- - elastic
+- - cubic_in
+- - cubic_out
+- - cubic_in_out
+- - sinusoidal_in
+- - sinusoidal_out
+- - sinusoidal_in_out
+- - circular_in
+- - circular_out
+- - circular_in_out
+- renamed functions:
+- - ease_in				➡️ quadratic_in
+- - ease_out			➡️ quadratic_out
+- - ease_in_out			➡️ quadratic_in_out
+- remove all spike_ functions in favor of a new property for the Tween.

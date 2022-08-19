@@ -3,23 +3,26 @@
 
 The tween object is a table that contain informations and callbacks about an interpolation animation that can be started or stopped with the tween itself.
 
-| Property      | Description |
-| ------------- | ----------- |
-| *method*: function | The method the Tween is using. |
-| *value_start*: number | The start value of the interpolation. |
-| *value_end*: number | The final value of the interpolation. |
-| *time*: float | The total time of the interpolation in seconds. |
-| *timer*: float | Current time of the interpolation in seconds. |
-| *loop*: bool - int | If the tween should loop for how many times. |
-
-	BeTweenApi.tween(method: function, movement: table[number], time: float, loop: bool | int, callbacks: table) : Tween
+	BeTweenApi.tween(
+		method: function,
+		movement: {
+			number,		-- start value
+			number,		-- final value
+			boolean = false	-- mirror mode
+			},
+		time: float,
+		loop: bool | int,
+		callbacks: table
+		) : Tween
 
 This method will create a new Tween object.
 
 - *method* is the interpolation function to use, see [BeTweenApi.interpolation](interpolation.md) for functions to use.
 You can define a custom function here too, make sure it ask for 3 argouments.
 
-- *movement* a list that contain the start position and the destination of the interpolation.
+- *movement* a list that contain the start position and the destination of the interpolation, the third argoument is a boolean and specify if the interpolation should mirror.
+
+- - When mirror is enabled the interpolation will become twince faster and reach the destination in half of the time, the other half is used to repeat the interpolation but reversed (from end to start).
 
 - *time* is the time in seconds of how much this tween must run.
 
@@ -30,7 +33,8 @@ You can define a custom function here too, make sure it ask for 3 argouments.
 | Callback | Description |
 | - | - |
 | on_start(tween: Tween) | Called when the Tween:start() is executed and the Tween will soon start to run his steps. |
-| on_end(tween: Tween) | Called when the Tween:stop() is executed and the Tween has stopped to run. |
+| on_end(tween: Tween) | Called when the Tween:stop() is executed or when the tween has finished to run. |
+| on_loop(tween: Tween) | Called every time the tween is looping, only called if loop is used.. |
 | on_step(value: number, tween: Tween) | Called each step of the interpolation in the defined time, value is the result value. | 
 
 	Tween:start()
@@ -65,7 +69,7 @@ Usage example:
 
 	local tween = InterpolationApi.tween(
 		InterpolationApi.interpolation.linear,	-- linear movement
-		{ 0, 64 },	-- from 0 to 64
+		{ 0, 64, false },	-- from 0 to 64, don't mirror
 		4.0,		-- in 4 seconds
 		true,		-- repeat after the time
 		{

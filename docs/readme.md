@@ -1,5 +1,5 @@
 
-# BeTween Api 1.1
+# BeTween Api 1.1.1
 
 This api implements a simple table called *BeTweenApi*, this table contains everything implemented in this library.
 

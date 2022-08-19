@@ -1,20 +1,38 @@
 
 
--- This is a list of all active tween that are processed in the server.
+--- This is a list of all active tween that are processed in the server.
 BeTweenApi.active_tweens = {}
 
 
--- create a new tween table that will interpolate from a initial value to a destination value in a specific amount of time.
+--- create a tween object that will interpolate an intial value to a destination in time, each value calculated in time are created from the function the tween is using, after the tween has been created it has run by calling :start()
+---
+--- 	--- movement values, they use index NOT names.
+--- 	{
+--- 		begin: number, destination: number, mirror: boolean
+--- 	}
+---
+--- 	--- callbacks, each of then give the tween.
+--- 	on_start(tween)	--- executed on tween start.
+--- 	on_stop(tween)	--- executed on tween stop.
+--- 	on_step(step, tween)	--- executed on tween interpolation step.
+--- 	on_loop(tween)	--- executed every loop the tween complete, only called if loop is used.
+--- @param method function
+--- @param movement table
+--- @param time number
+--- @param loop boolean | integer false
+--- @param callbacks table nil
+--- @return  table | nil
 BeTweenApi.tween = function (method, movement, time, loop, callbacks)
 
 	-- movement require two values, the initial position and the final position.
 	if ((movement[1] == nil) or (movement[2] == nil)) then
 		minetest.log("action", "Failed to make tween because movement does not contain enough values.")
-		return
+		return nil
 	end
 
-	if ((type(loop) == "number") and (loop <= 0)) then
-		minetest.log("action", string.format("Tried to set tween to loop %d times, the tween will execute at least once.", loop))
+	--- set default value for mirror interpolation.
+	if (movement[3] == nil) then
+		movement[3] = false
 	end
 
 	-- callbacks are optional.
@@ -24,25 +42,44 @@ BeTweenApi.tween = function (method, movement, time, loop, callbacks)
 
 	-- make the tween table.
 	local tween = {
+
+		--- @type function
 		method = method,
+
+		--- @type table
 		movement = movement,
+
+		--- @type number
 		time = time,
 
+		--- @type number
 		timer = 0.0,
+
+		--- @type boolean | integer
 		loop = loop,
+
+		--- @type function | nil
 		on_start = callbacks.on_start,
+
+		--- @type function | nil
 		on_stop = callbacks.on_stop,
+
+		--- @type function | nil
 		on_step = callbacks.on_step,
+
+		--- @type function | nil
+		on_loop = callbacks.on_loop,
 
 		-- start the tween to work by adding it from the active list.
 		start = function (_)
 
 			if (_:is_running() == true) then
-				minetest.log("action", "Tried to start tween twince!")
+				minetest.log("action", string.format("Tried to start tween '%p' twince.", _))
 				return
 			end
 
 			table.insert(BeTweenApi.active_tweens, _)
+			minetest.log("action", string.format("Tween '%d' ~ '%p' is now running.", _:index(), _))
 
 			if (_.on_start ~= nil) then
 				_.on_start(_)
@@ -50,10 +87,9 @@ BeTweenApi.tween = function (method, movement, time, loop, callbacks)
 
 		end,
 
-		-- stop the tween to work by removing it from the active list.
-		--
-		-- params:
-		--	reset = false, if true it will restart the tween timer.
+		--- stop the tween to work by removing it from the active list.
+		---
+		--- @param reset boolean false
 		stop = function (_, reset)
 			local index = _:index()
 
@@ -62,7 +98,7 @@ BeTweenApi.tween = function (method, movement, time, loop, callbacks)
 			end
 			
 			if (index == nil) then
-				minetest.log("action", "Tried to stop tween when already stopped.")
+				minetest.log("action", string.format("Tried to stop tween '%p' wich wasn't running.", _))
 				return
 			end
 
@@ -71,13 +107,15 @@ BeTweenApi.tween = function (method, movement, time, loop, callbacks)
 			end
 
 			table.remove(BeTweenApi.active_tweens, index)
+			minetest.log("action", string.format("Tween '%p' has been stopped.", _))
 
 			if (_.on_stop ~= nil) then
 				_.on_stop(_)
 			end
 		end,
 
-		-- check if the tween is currently running.
+		--- check if the tween is currently running.
+		--- @return boolean
 		is_running = function (_)
 			for i, tween in pairs(BeTweenApi.active_tweens) do
 				if (tween == _) then
@@ -88,7 +126,8 @@ BeTweenApi.tween = function (method, movement, time, loop, callbacks)
 			return false
 		end,
 
-		-- get the running index of the tween, if the tween isn't running nil is returned.
+		--- get the running index of the tween, if the tween isn't running nil is returned.
+		--- @return integer | nil
 		index = function (_)
 			local index = 1
 			
@@ -105,6 +144,7 @@ BeTweenApi.tween = function (method, movement, time, loop, callbacks)
 		end,
 	}
 
+	minetest.log("action", string.format("New tween '%p' created.", tween))
 	return tween
 end
 

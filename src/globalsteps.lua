@@ -13,12 +13,22 @@ minetest.register_globalstep(
 				if (t > 1.0) then
 					t = 1.0
 				end
+
+				-- store time to give to the function, it may get modifications.
+				local f_t = t
+
+				-- make movement go back in the middle.
+				if (tween.movement[3] == true) then
+					if (f_t >= 0.5) then
+						f_t = (1.0 - f_t) / 0.5
+					else
+						f_t = f_t * 2
+					end
+				end
 	
 				-- calculate the interpolated value.
 				local value = tween.method(
-					tween.movement[1],
-					tween.movement[2],
-					t
+					tween.movement[1], tween.movement[2], f_t
 				)
 	
 				-- call the step of the tween.
@@ -40,6 +50,11 @@ minetest.register_globalstep(
 					-- if number is used, count down for the end.
 					if (type(tween.loop) == "number") then
 						tween.loop = tween.loop - 1
+					end
+
+					--- call the loop event.
+					if (tween.on_loop ~= nil) then
+						tween.on_loop(tween)
 					end
 				
 				-- if the tween need to stop, stop it.

@@ -1,15 +1,21 @@
 
 
+--- NOTE
+--- The list of running tween is created and destroyed every global step, these are a lots of hud updates wich may lag the whole server.
+--- A different and better update logic will be cool.
+
+
 -- contain debug related content.
 BeTweenApi.debug = {
 
-	-- list of all players that are using the debug functions view.
+	--- list of all players that are using the debug functions view.
 	hud_interpolation = {},
 
-	-- list of all players that are using the debug tween view.
+	--- list of all players that are using the debug tween view.
 	hud_running_tweens = {},
 
-	-- show the list of all easing functions to this player.
+	--- show the list of all easing functions to this player.
+	--- @param player_name string
 	show_functions = function (_, player_name)
 
 		-- hud already enabled.
@@ -23,27 +29,17 @@ BeTweenApi.debug = {
 		local scale = { x = 2, y = 2}
 
 		local visual = {
-			tweens = {},
+			tweens = {},	-- contain list of interpolation name and hud items used.
 		}
 
 		_.hud_interpolation[player_name] = visual
-
-		visual.title = player:hud_add({
-			hud_elem_type = "text",
-			text      = "BeTween Api Debug : Easing functions",
-			position = { x = 0, y = 0 },
-			offset = { x = start, y = 32 },
-			alignment = { x = 1, y = 0 },
-			number    = 0xFFFFFF,
-			style     = 1,
-		})
 
 		for _, interpolation in pairs(BeTweenApi.interpolation) do
 			local y = 64 + (24 * index)
 
 			local start_icon = player:hud_add({
 				hud_elem_type = "image",
-				text      = "heart.png^[colorize:#0000FF",
+				text      = "^[resize:10x10^[colorize:#0000ff",
 				scale = scale,
 				offset = { x = start, y = y },
 				position = { x = 0, y = 0 },
@@ -52,7 +48,7 @@ BeTweenApi.debug = {
 
 			local stop_icon = player:hud_add({
 				hud_elem_type = "image",
-				text      = "heart.png^[colorize:#0000FF",
+				text      = "^[resize:10x10^[colorize:#0000ff",
 				scale = scale,
 				offset = { x = finish, y = y },
 				position = { x = 0, y = 0 },
@@ -61,7 +57,7 @@ BeTweenApi.debug = {
 
 			local icon = player:hud_add({
 				hud_elem_type = "image",
-				text      = "heart.png",
+				text      = "^[resize:6x6^[colorize:#ff0000",
 				scale = scale,
 				offset = { x = 32, y = y },
 				position = { x = 0, y = 0 },
@@ -101,12 +97,25 @@ BeTweenApi.debug = {
 			index = index + 1
 		end
 
+		--- make the cool title
+		visual.title = player:hud_add({
+			hud_elem_type = "text",
+			text      = string.format("BeTween Api Debug : Easing functions : %d", index + 1),
+			position = { x = 0, y = 0 },
+			offset = { x = start, y = 32 },
+			alignment = { x = 1, y = 0 },
+			number    = 0xFFFFFF,
+			style     = 1,
+		})
+
+		--- start all tweens
 		for _, tween in pairs(visual.tweens) do
 			tween:start()
 		end
 	end,
 
-	-- hide the list of all defined easing functions from this player.
+	--- hide the list of all defined easing functions from this player.
+	--- @param player_name string
 	hide_functions = function (_, player_name)
 
 		-- hud already disabled.
@@ -124,7 +133,8 @@ BeTweenApi.debug = {
 		_.hud_interpolation[player_name] = nil
 	end,
 
-	-- show the list of all active tweens to this player.
+	--- show the list of all active tweens to this player.
+	--- @param player_name string
 	show_tweens = function (_, player_name)
 
 		-- hud already enabled.
@@ -135,63 +145,43 @@ BeTweenApi.debug = {
 		local player = minetest.get_player_by_name(player_name)
 
 		_.hud_running_tweens[player_name] = {
-			title = {
-				player:hud_add({
-					hud_elem_type = "text",
-					text      = "BeTween Api Debug : Running tweens",
-					position = { x = 0.5, y = 0 },
-					offset = { x = 0, y = 32 },
-					alignment = { x = 1, y = 0 },
-					number    = 0xFFFFFF,
-					style     = 1,
-				}),
-				player:hud_add({
-					hud_elem_type = "text",
-					text      = "tween",
-					position = { x = 0.5, y = 0 },
-					offset = { x = 0, y = 64 },
-					alignment = { x = 1, y = 0 },
-					number    = 0xFFFFFF,
-					style     = 1,
-				}),
-				player:hud_add({
-					hud_elem_type = "text",
-					text      = "method",
-					position = { x = 0.5, y = 0 },
-					offset = { x = 128, y = 64 },
-					alignment = { x = 1, y = 0 },
-					number    = 0xFFFFFF,
-					style     = 1,
-				}),
-				player:hud_add({
-					hud_elem_type = "text",
-					text      = "timer",
-					position = { x = 0.5, y = 0 },
-					offset = { x = 240, y = 64 },
-					alignment = { x = 1, y = 0 },
-					number    = 0xFFFFFF,
-					style     = 1,
-				})
-			},
+			title = player:hud_add({
+				hud_elem_type = "text",
+				text      = "BeTween Api Debug : Tweens",
+				position = { x = 0.5, y = 0 },
+				offset = { x = 0, y = 32 },
+				alignment = { x = 1, y = 0 },
+				number    = 0xFFFFFF,
+				style     = 1,
+			}),
+			tween_title = player:hud_add({
+				hud_elem_type = "text",
+				position = { x = 0.5, y = 0 },
+				offset = { x = 0, y = 64 },
+				alignment = { x = 1, y = 0 },
+				number    = 0xFFFFFF,
+				style     = 1,
+			}),
 			update = {},
 		}
 	end,
 
-	-- hide the list of all active tweens from this player.
+	--- hide the list of all active tweens from this player.
+	--- @param player_name string
 	hide_tweens = function (_, player_name)
+		local visual = _.hud_running_tweens[player_name]
 
 		-- hud already disabled.
-		if (_.hud_running_tweens[player_name] == nil) then
+		if (visual == nil) then
 			return
 		end
 
 		local player = minetest.get_player_by_name(player_name)
 
-		for _, id in pairs(_.hud_running_tweens[player_name].title) do
-			player:hud_remove(id)
-		end
+		player:hud_remove(visual.title)
+		player:hud_remove(visual.tween_title)
 
-		for _, id in pairs(_.hud_running_tweens[player_name].update) do
+		for _, id in pairs(visual.update) do
 			player:hud_remove(id)
 		end
 
@@ -209,71 +199,65 @@ minetest.register_globalstep(
 				player:hud_remove(id)
 			end
 
-			local index = 1
+			local index = 0
+			local rows = 3
+			local show_max = 17
 			visual.update = {}
 
 			for _, tween in pairs(BeTweenApi.active_tweens) do
 
-				table.insert_all(visual.update,
-					{
-						player:hud_add({
-							hud_elem_type = "text",
-							text      = string.format("%d ~ %p",_ , tween),
-							position = { x = 0.5, y = 0 },
-							offset = { x = 0, y = 64 + (24 * index) },
-							alignment = { x = 1, y = 0 },
-							number    = 0xFFFFFF,
-							style     = 2,
-						}),
-						player:hud_add({
-							hud_elem_type = "text",
-							text      = string.format("%p", tween.method),
-							position = { x = 0.5, y = 0 },
-							offset = { x = 128, y = 64 + (24 * index) },
-							alignment = { x = 1, y = 0 },
-							number    = 0xFFFFFF,
-							style     = 2,
-						}),
-						player:hud_add({
-							hud_elem_type = "text",
-							text      = string.format("%.2f ~ %.2f", tween.timer, tween.time),
-							position = { x = 0.5, y = 0 },
-							offset = { x = 292, y = 64 + (24 * index) },
-							alignment = { x = 1, y = 0 },
-							number    = 0xFFFFFF,
-							style     = 1,
-						}),
-					}
-				)
-
-				if (tween.loop == true) then
-					table.insert(visual.update,
-						player:hud_add({
-							hud_elem_type = "text",
-							text      = "∞",
-							position = { x = 0.5, y = 0 },
-							offset = { x = 240, y = 64 + (24 * index) },
-							alignment = { x = 1, y = 0 },
-							number    = 0xFFFFFF,
-							style     = 1,
-						})
-					)
-				elseif (type(tween.loop) == "number") then
-					table.insert(visual.update,
-						player:hud_add({
-							hud_elem_type = "text",
-							text      = tostring(tween.loop),
-							position = { x = 0.5, y = 0 },
-							offset = { x = 240, y = 64 + (24 * index) },
-							alignment = { x = 1, y = 0 },
-							number    = 0xFFFFFF,
-							style     = 1,
-						})
+				if (index < show_max) then
+					table.insert_all(visual.update,
+						{
+							player:hud_add({
+								hud_elem_type = "text",
+								text      = string.format("[%2d] ~ %p",_ , tween),
+								position = { x = 0.5, y = 0 },
+								offset = {
+									x = (186 * (index % rows)),
+									y = 88 + (48 * math.floor(index / rows))
+								},
+								alignment = { x = 1, y = 0 },
+								number    = 0xFFFFFF,
+								style     = 1,
+							}),
+							player:hud_add({
+								hud_elem_type = "text",
+								text      = string.format("%.2f ~ %.2f", tween.timer, tween.time),
+								position = { x = 0.5, y = 0 },
+								offset = {
+									x = (186 * (index % rows)),
+									y = 112 + (48 * math.floor(index / rows))
+								},
+								alignment = { x = 1, y = 0 },
+								number    = 0xFFFFFF,
+							}),
+						}
 					)
 				end
 
 				index = index + 1
 			end
+
+			if (index > show_max) then
+				table.insert(
+					visual.update,
+					player:hud_add({
+						hud_elem_type = "text",
+						text      = string.format("+%d more...", index - show_max),
+						position = { x = 0.5, y = 0 },
+						offset = {
+							x = (186 * (show_max % rows)),
+							y = 88 + (48 * math.floor(show_max / rows))
+						},
+						alignment = { x = 1, y = 0 },
+						number    = 0xFFFFFF,
+						style     = 1,
+					})
+				)
+			end
+
+			player:hud_change(visual.tween_title, "text", string.format("Running tweens [%d]", index))
 		end
 	end
 )

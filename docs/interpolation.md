@@ -12,18 +12,27 @@ Currently interpolation can be done only with numbers (float and integer).
 | Function | Description |
 | -------- | ----------- |
 | linear   | straight increment from x to y in time. |
-| ease_in  | straight increment from x to y in time. |
-| ease_out | movement increment slower from x to y in time. |
-| ease_in_out | movement is faster between x to y but slow down on begin and end in time. |
-| spike_linear | movement moves like linear, but reach his destination in half the time, the rest of the time is used to come back to the starting point. |
-| spike_ease_in | movement moves like ease in, but reach his destination in half the time, the rest of the time is used to come back to the starting point. |
-| spike_ease_out | movement moves like ease out, but reach his destination in half the time, the rest of the time is used to come back to the starting point. |
-| spike_ease_in_out | movement moves like ease in out, but reach his destination in half the time, the rest of the time is used to come back to the starting point. |
+| quadratic_in  | straight increment from x to y in time. |
+| quadratic_out | movement increment slower from x to y in time. |
+| quadratic_in_out | movement is faster between x to y but slow down on begin and end in time. |
+| cubic_in | movement increment faster from x to y in time. |
+| cubic_out | movement increment slower from x to y in time. |
+| cubic_in_out | movement is faster between x to y but slow down on begin and end in time. |
+| quartic_in | movement increment faster from x to y in time. |
+| quartic_out | movement increment slower from x to y in time. |
+| quartic_in_out | movement is faster between x to y but slow down on begin and end in time. |
+| elastic | movement jump from x to y like an elastic, movement is very fast but slow down in time. |
+| sinusoidal_in | movement increment faster from x to y in time, the movement has the shape of a curve. |
+| sinusoidal_out | movement increment faster from x to y in time, the movement has the shape of a curve. |
+| sinusoidal_in_out | movement is faster between x to y but slow down on begin and end in time, the movement has the shape of a curve. |
+| circular_in | movement increment faster esponentially from x to y in time. |
+| circular_out | movement increment slower esponentially from x to y in time. |
+| circular_in_out | movement increment slower from the start to the end but speed up esponentially in the middle. |
 
 ______
 
 Usage example:
 
 	BeTweenApi.interpolation.linear(0, 4, 0.5) -- 2
-	BeTweenApi.interpolation.ease_in(0, 8, 0.5) -- 2
-	BeTweenApi.interpolation.ease_out(0, 8, 0.5) -- 4.5
+	BeTweenApi.interpolation.quadratic_in(0, 8, 0.5) -- 2
+	BeTweenApi.interpolation.quadratic_out(0, 8, 0.5) -- 4.5
