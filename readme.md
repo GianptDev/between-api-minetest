@@ -13,7 +13,7 @@ This mod can be used by other mods for animations, currently tested for huds.
 
 ![](https://img.shields.io/github/license/GianptDev/between-api-minetest)
 
-![showcase](resources/showcase.gif)
+<img width=500 src="resources/showcase.gif">
 
 ## Installation
 
