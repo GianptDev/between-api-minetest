@@ -40,3 +40,10 @@
 - - ease_out			➡️ quadratic_out
 - - ease_in_out			➡️ quadratic_in_out
 - remove all spike_ functions in favor of a new property for the Tween.
+
+
+# 1.2 (wip)
+
+- creating icons to give the api a cooler look.
+- - Inspirations:
+- - https://github.com/godotengine/godot/blob/master/editor/icons/Tween.svg
