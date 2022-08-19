@@ -14,7 +14,7 @@
 - changed the logo.
 
 
-# 1.1.1 (wip)
+# 1.1.1
 
 - added javadocs in code definitions.
 - debug function list now show functions count and replaced the icon of the preview from the heart in favor of geometry dash characters.
