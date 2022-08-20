@@ -16,12 +16,13 @@ BeTweenApi.active_tweens = {}
 --- 	on_stop(tween)	--- executed on tween stop.
 --- 	on_step(step, tween)	--- executed on tween interpolation step.
 --- 	on_loop(tween)	--- executed every loop the tween complete, only called if loop is used.
+--- @class Tween
 --- @param method function
 --- @param movement table
 --- @param time number
 --- @param loop boolean | integer false
 --- @param callbacks table nil
---- @return  table | nil
+--- @return Tween | nil
 BeTweenApi.tween = function (method, movement, time, loop, callbacks)
 
 	-- movement require two values, the initial position and the final position.
@@ -147,4 +148,3 @@ BeTweenApi.tween = function (method, movement, time, loop, callbacks)
 	minetest.log("action", string.format("New tween '%p' created.", tween))
 	return tween
 end
-

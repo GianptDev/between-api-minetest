@@ -47,3 +47,5 @@
 - creating icons to give the api a cooler look.
 - - Inspirations:
 - - https://github.com/godotengine/godot/blob/master/editor/icons/Tween.svg
+- geometry dash characters are not used anymore for the function debug list in favor of a less boring image of a ball and a prism, they also have borders!
+

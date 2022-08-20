@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="16.0px"
+   height="16.0px"
+   viewBox="0 0 16.0 16.0"
+   version="1.1"
+   id="SVGRoot"
+   sodipodi:docname="between_ball.svg"
+   inkscape:version="1.2 (dc2aedaf03, 2022-05-15)"
+   inkscape:export-filename="..\..\textures\between_ball.png"
+   inkscape:export-xdpi="144"
+   inkscape:export-ydpi="144"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview137"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#505050"
+     inkscape:document-units="px"
+     showgrid="true"
+     inkscape:zoom="19.02887"
+     inkscape:cx="2.7852416"
+     inkscape:cy="10.195035"
+     inkscape:window-width="1304"
+     inkscape:window-height="745"
+     inkscape:window-x="54"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1"
+     showguides="true">
+    <inkscape:grid
+       type="xygrid"
+       id="grid260"
+       spacingx="2"
+       spacingy="2" />
+    <sodipodi:guide
+       position="2,18"
+       orientation="1,0"
+       id="guide531"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="-2,14"
+       orientation="0,-1"
+       id="guide533"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="14,18"
+       orientation="1,0"
+       id="guide535"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="-2,2"
+       orientation="0,-1"
+       id="guide537"
+       inkscape:locked="false" />
+  </sodipodi:namedview>
+  <defs
+     id="defs132" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <circle
+       style="fill:#ffffff;stroke-miterlimit:0;stroke:#000000"
+       id="path539"
+       cy="8"
+       cx="8"
+       r="6" />
+  </g>
+</svg>
