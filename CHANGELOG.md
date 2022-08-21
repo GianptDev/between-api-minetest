@@ -47,3 +47,5 @@
 - creating icons to give the api a cooler look.
 - - Inspirations:
 - - https://github.com/godotengine/godot/blob/master/editor/icons/Tween.svg
+- converted every function declaration in a more friendly way.
+

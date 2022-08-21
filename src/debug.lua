@@ -13,181 +13,185 @@ BeTweenApi.debug = {
 
 	--- list of all players that are using the debug tween view.
 	hud_running_tweens = {},
+}
 
-	--- show the list of all easing functions to this player.
-	--- @param player_name string
-	show_functions = function (_, player_name)
 
-		-- hud already enabled.
-		if (_.hud_interpolation[player_name] ~= nil) then
-			return
-		end
+--- show the list of all easing functions to this player.
+--- @param player_name string
+function BeTweenApi.debug.show_functions (_, player_name)
 
-		local player = minetest.get_player_by_name(player_name)
-		local index = 0
-		local start, finish = 32, 256
-		local scale = { x = 2, y = 2}
+	-- hud already enabled.
+	if (_.hud_interpolation[player_name] ~= nil) then
+		return
+	end
 
-		local visual = {
-			tweens = {},	-- contain list of interpolation name and hud items used.
-		}
+	local player = minetest.get_player_by_name(player_name)
+	local index = 0
+	local start, finish = 32, 256
+	local scale = { x = 2, y = 2}
 
-		_.hud_interpolation[player_name] = visual
+	local visual = {
+		tweens = {},	-- contain list of interpolation name and hud items used.
+	}
 
-		for _, interpolation in pairs(BeTweenApi.interpolation) do
-			local y = 64 + (24 * index)
+	_.hud_interpolation[player_name] = visual
 
-			local start_icon = player:hud_add({
-				hud_elem_type = "image",
-				text      = "^[resize:10x10^[colorize:#0000ff",
-				scale = scale,
-				offset = { x = start, y = y },
-				position = { x = 0, y = 0 },
-				alignment = { x = 0, y = 0 },
-			})
+	for _, interpolation in pairs(BeTweenApi.interpolation) do
+		local y = 64 + (24 * index)
 
-			local stop_icon = player:hud_add({
-				hud_elem_type = "image",
-				text      = "^[resize:10x10^[colorize:#0000ff",
-				scale = scale,
-				offset = { x = finish, y = y },
-				position = { x = 0, y = 0 },
-				alignment = { x = 0, y = 0 },
-			})
-
-			local icon = player:hud_add({
-				hud_elem_type = "image",
-				text      = "^[resize:6x6^[colorize:#ff0000",
-				scale = scale,
-				offset = { x = 32, y = y },
-				position = { x = 0, y = 0 },
-				alignment = { x = 0, y = 0 },
-			})
-
-			local title = player:hud_add({
-				hud_elem_type = "text",
-				text      = tostring(_),
-				position = { x = 0, y = 0 },
-				offset = { x = finish + 32, y = y },
-				alignment = { x = 1, y = 0 },
-				number    = 0xFFFFFF,
-				style     = 1,
-			})
-	
-			visual.tweens[_] = BeTweenApi.tween(
-				interpolation,
-				{ start, finish },
-				4.0,
-				true,
-				{
-					on_step = function (step, tween)
-						local item = player:hud_get(icon)
-						player:hud_change(icon, "offset", { x = step, y = item.offset.y })
-					end,
-
-					on_stop = function (tween)
-						player:hud_remove(start_icon)
-						player:hud_remove(stop_icon)
-						player:hud_remove(icon)
-						player:hud_remove(title)
-					end,
-				}
-			)
-
-			index = index + 1
-		end
-
-		--- make the cool title
-		visual.title = player:hud_add({
-			hud_elem_type = "text",
-			text      = string.format("BeTween Api Debug : Easing functions : %d", index + 1),
+		local start_icon = player:hud_add({
+			hud_elem_type = "image",
+			text      = "^[resize:10x10^[colorize:#0000ff",
+			scale = scale,
+			offset = { x = start, y = y },
 			position = { x = 0, y = 0 },
-			offset = { x = start, y = 32 },
+			alignment = { x = 0, y = 0 },
+		})
+
+		local stop_icon = player:hud_add({
+			hud_elem_type = "image",
+			text      = "^[resize:10x10^[colorize:#0000ff",
+			scale = scale,
+			offset = { x = finish, y = y },
+			position = { x = 0, y = 0 },
+			alignment = { x = 0, y = 0 },
+		})
+
+		local icon = player:hud_add({
+			hud_elem_type = "image",
+			text      = "^[resize:6x6^[colorize:#ff0000",
+			scale = scale,
+			offset = { x = 32, y = y },
+			position = { x = 0, y = 0 },
+			alignment = { x = 0, y = 0 },
+		})
+
+		local title = player:hud_add({
+			hud_elem_type = "text",
+			text      = tostring(_),
+			position = { x = 0, y = 0 },
+			offset = { x = finish + 32, y = y },
 			alignment = { x = 1, y = 0 },
 			number    = 0xFFFFFF,
 			style     = 1,
 		})
 
-		--- start all tweens
-		for _, tween in pairs(visual.tweens) do
-			tween:start()
-		end
-	end,
+		visual.tweens[_] = BeTweenApi.tween(
+			interpolation,
+			{ start, finish },
+			4.0,
+			true,
+			{
+				on_step = function (step, tween)
+					local item = player:hud_get(icon)
+					player:hud_change(icon, "offset", { x = step, y = item.offset.y })
+				end,
 
-	--- hide the list of all defined easing functions from this player.
-	--- @param player_name string
-	hide_functions = function (_, player_name)
+				on_stop = function (tween)
+					player:hud_remove(start_icon)
+					player:hud_remove(stop_icon)
+					player:hud_remove(icon)
+					player:hud_remove(title)
+				end,
+			}
+		)
 
-		-- hud already disabled.
-		if (_.hud_interpolation[player_name] == nil) then
-			return
-		end
-
-		local player = minetest.get_player_by_name(player_name)
-
-		player:hud_remove(_.hud_interpolation[player_name].title)
-		for _, tween in pairs(_.hud_interpolation[player_name].tweens) do
-			tween:stop()
-		end
-
-		_.hud_interpolation[player_name] = nil
-	end,
-
-	--- show the list of all active tweens to this player.
-	--- @param player_name string
-	show_tweens = function (_, player_name)
-
-		-- hud already enabled.
-		if (_.hud_running_tweens[player_name] ~= nil) then
-			return
-		end
-
-		local player = minetest.get_player_by_name(player_name)
-
-		_.hud_running_tweens[player_name] = {
-			title = player:hud_add({
-				hud_elem_type = "text",
-				text      = "BeTween Api Debug : Tweens",
-				position = { x = 0.5, y = 0 },
-				offset = { x = 0, y = 32 },
-				alignment = { x = 1, y = 0 },
-				number    = 0xFFFFFF,
-				style     = 1,
-			}),
-			tween_title = player:hud_add({
-				hud_elem_type = "text",
-				position = { x = 0.5, y = 0 },
-				offset = { x = 0, y = 64 },
-				alignment = { x = 1, y = 0 },
-				number    = 0xFFFFFF,
-				style     = 1,
-			}),
-			update = {},
-		}
-	end,
-
-	--- hide the list of all active tweens from this player.
-	--- @param player_name string
-	hide_tweens = function (_, player_name)
-		local visual = _.hud_running_tweens[player_name]
-
-		-- hud already disabled.
-		if (visual == nil) then
-			return
-		end
-
-		local player = minetest.get_player_by_name(player_name)
-
-		player:hud_remove(visual.title)
-		player:hud_remove(visual.tween_title)
-
-		for _, id in pairs(visual.update) do
-			player:hud_remove(id)
-		end
-
-		_.hud_running_tweens[player_name] = nil
+		index = index + 1
 	end
-}
+
+	--- make the cool title
+	visual.title = player:hud_add({
+		hud_elem_type = "text",
+		text      = string.format("BeTween Api Debug : Easing functions : %d", index + 1),
+		position = { x = 0, y = 0 },
+		offset = { x = start, y = 32 },
+		alignment = { x = 1, y = 0 },
+		number    = 0xFFFFFF,
+		style     = 1,
+	})
+
+	--- start all tweens
+	for _, tween in pairs(visual.tweens) do
+		tween:start()
+	end
+end
+
+
+--- hide the list of all defined easing functions from this player.
+--- @param player_name string
+function BeTweenApi.debug.hide_functions (_, player_name)
+
+	-- hud already disabled.
+	if (_.hud_interpolation[player_name] == nil) then
+		return
+	end
+
+	local player = minetest.get_player_by_name(player_name)
+
+	player:hud_remove(_.hud_interpolation[player_name].title)
+	for _, tween in pairs(_.hud_interpolation[player_name].tweens) do
+		tween:stop()
+	end
+
+	_.hud_interpolation[player_name] = nil
+end
+
+
+--- show the list of all active tweens to this player.
+--- @param player_name string
+function BeTweenApi.debug.show_tweens (_, player_name)
+
+	-- hud already enabled.
+	if (_.hud_running_tweens[player_name] ~= nil) then
+		return
+	end
+
+	local player = minetest.get_player_by_name(player_name)
+
+	_.hud_running_tweens[player_name] = {
+		title = player:hud_add({
+			hud_elem_type = "text",
+			text      = "BeTween Api Debug : Tweens",
+			position = { x = 0.5, y = 0 },
+			offset = { x = 0, y = 32 },
+			alignment = { x = 1, y = 0 },
+			number    = 0xFFFFFF,
+			style     = 1,
+		}),
+		tween_title = player:hud_add({
+			hud_elem_type = "text",
+			position = { x = 0.5, y = 0 },
+			offset = { x = 0, y = 64 },
+			alignment = { x = 1, y = 0 },
+			number    = 0xFFFFFF,
+			style     = 1,
+		}),
+		update = {},
+	}	
+end
+
+
+--- hide the list of all active tweens from this player.
+--- @param player_name string
+function BeTweenApi.debug.hide_tweens (_, player_name)
+	local visual = _.hud_running_tweens[player_name]
+
+	-- hud already disabled.
+	if (visual == nil) then
+		return
+	end
+
+	local player = minetest.get_player_by_name(player_name)
+
+	player:hud_remove(visual.title)
+	player:hud_remove(visual.tween_title)
+
+	for _, id in pairs(visual.update) do
+		player:hud_remove(id)
+	end
+
+	_.hud_running_tweens[player_name] = nil
+end
 
 
 minetest.register_globalstep(

@@ -31,7 +31,7 @@ minetest.register_chatcommand(
 				return true
 			end
 
-			return true, "BeTween Api v1.1.1"
+			return true, "BeTween Api v1.2 (wip)"
 		end
 	}
 )
