@@ -28,7 +28,7 @@ function BeTweenApi.debug.show_functions (_, player_name)
 	local player = minetest.get_player_by_name(player_name)
 	local index = 0
 	local start, finish = 32, 256
-	local scale = { x = 2, y = 2}
+	local scale = { x = 1, y = 1}
 
 	local visual = {
 		tweens = {},	-- contain list of interpolation name and hud items used.
@@ -41,7 +41,7 @@ function BeTweenApi.debug.show_functions (_, player_name)
 
 		local start_icon = player:hud_add({
 			hud_elem_type = "image",
-			text      = "^[resize:10x10^[colorize:#0000ff",
+			text      = "between_ball.png^[multiply:#0000ff",
 			scale = scale,
 			offset = { x = start, y = y },
 			position = { x = 0, y = 0 },
@@ -50,7 +50,7 @@ function BeTweenApi.debug.show_functions (_, player_name)
 
 		local stop_icon = player:hud_add({
 			hud_elem_type = "image",
-			text      = "^[resize:10x10^[colorize:#0000ff",
+			text      = "between_ball.png^[multiply:#0000ff",
 			scale = scale,
 			offset = { x = finish, y = y },
 			position = { x = 0, y = 0 },
@@ -59,7 +59,7 @@ function BeTweenApi.debug.show_functions (_, player_name)
 
 		local icon = player:hud_add({
 			hud_elem_type = "image",
-			text      = "^[resize:6x6^[colorize:#ff0000",
+			text      = "between_prism.png^[multiply:#ff0000",
 			scale = scale,
 			offset = { x = 32, y = y },
 			position = { x = 0, y = 0 },
