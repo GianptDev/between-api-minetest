@@ -10,25 +10,30 @@ minetest.register_chatcommand(
 			debug = true,
 		},
 		func = function (name, param)
-			param = string.lower(param)
-
-			if (param == "functions") then
-				if (BeTweenApi.debug.hud_interpolation[name] == nil) then
-					BeTweenApi.debug:show_functions(name)
-				else
-					BeTweenApi.debug:hide_functions(name)
-				end
-
-				return true
+			local player = minetest.get_player_by_name(name)
 			
-			elseif (param == "tweens") then
-				if (BeTweenApi.debug.hud_running_tweens[name] == nil) then
-					BeTweenApi.debug:show_tweens(name)
-				else
-					BeTweenApi.debug:hide_tweens(name)
-				end
+			--- check if the command is called from a player or from the server.
+			if (player ~= nil) then
+				param = string.lower(param)
 
-				return true
+				if (param == "functions") then
+					if (BeTweenApi.debug.hud_interpolation[name] == nil) then
+						BeTweenApi.debug:show_functions(name)
+					else
+						BeTweenApi.debug:hide_functions(name)
+					end
+	
+					return true
+				
+				elseif (param == "tweens") then
+					if (BeTweenApi.debug.hud_running_tweens[name] == nil) then
+						BeTweenApi.debug:show_tweens(name)
+					else
+						BeTweenApi.debug:hide_tweens(name)
+					end
+	
+					return true
+				end
 			end
 
 			return true, "BeTween Api v1.2 (wip)"

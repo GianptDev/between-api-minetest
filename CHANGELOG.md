@@ -49,4 +49,5 @@
 - - https://github.com/godotengine/godot/blob/master/editor/icons/Tween.svg
 - geometry dash characters are not used anymore for the function debug list in favor of a less boring image of a ball and a prism, they also have borders!
 - converted the syntax of every function in a more friendly way.
+- /between command now check if it has been called from a player or the server.
 
