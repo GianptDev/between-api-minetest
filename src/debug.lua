@@ -16,9 +16,11 @@
 BeTweenApi.debug = {
 
 	--- list of all players that are using the debug functions view.
+	--- @type table<string, any>
 	hud_interpolation = {},
 
 	--- list of all players that are using the debug tween view.
+	--- @type table<string, any>
 	hud_running_tweens = {},
 }
 

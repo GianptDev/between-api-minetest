@@ -10,7 +10,7 @@
 --- 	interpolation.linear(0, 8, 0.5) -- 4
 --- 	interpolation.quadratic_in(0, 8, 0.5) -- 2
 --- 	interpolation.quadratic_out(0, 8, 0.5) -- 4.5
---- @type table
+--- @type table<function>
 BeTweenApi.interpolation = {}
 
 

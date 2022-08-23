@@ -4,6 +4,7 @@
 
 
 --- This is a list of all active tween that are processed in the server.
+--- @type table<Tween>
 BeTweenApi.active_tweens = {}
 
 
@@ -111,7 +112,7 @@ end
 --- @param movement table
 --- @param time number
 --- @param loop boolean | integer false
---- @param callbacks table nil
+--- @param callbacks table<function> nil
 --- @return Tween | nil
 function BeTweenApi.tween (interpolation, movement, time, loop, callbacks)
 
@@ -132,7 +133,6 @@ function BeTweenApi.tween (interpolation, movement, time, loop, callbacks)
 	end
 
 	--- make the tween table.
-	--- @class Tween
 	local tween = {
 		interpolation = interpolation,	--- @type function
 		movement = movement,	--- @type table
