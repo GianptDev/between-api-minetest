@@ -1,11 +1,18 @@
 
 
+--- -----------------------------------------------------------
+
+
 --- NOTE
---- The list of running tween is created and destroyed every global step, these are a lots of hud updates wich may lag the whole server.
---- A different and better update logic will be cool.
+--- The list of running tween create and destroy hud elements every globalstep and this is the cause of flickering.
+--- A different and better update logic would fix the problem.
 
 
--- contain debug related content.
+--- -----------------------------------------------------------
+
+
+--- contain debug related content.
+--- @class Debug
 BeTweenApi.debug = {
 
 	--- list of all players that are using the debug functions view.
@@ -16,7 +23,88 @@ BeTweenApi.debug = {
 }
 
 
+--- -----------------------------------------------------------
+
+
+local function A (_)
+	for plr_name, visual in pairs(BeTweenApi.debug.hud_running_tweens) do
+		local player = minetest.get_player_by_name(plr_name)
+
+		for _, id in pairs(visual.update) do
+			player:hud_remove(id)
+		end
+
+		local index = 0
+		local rows = 3
+		local show_max = 17
+		visual.update = {}
+
+		for _, tween in pairs(BeTweenApi.active_tweens) do
+
+			if (index < show_max) then
+				table.insert_all(visual.update,
+					{
+						player:hud_add({
+							hud_elem_type = "text",
+							text      = string.format("[%2d] ~ %p",_ , tween),
+							position = { x = 0.5, y = 0 },
+							offset = {
+								x = (186 * (index % rows)),
+								y = 88 + (48 * math.floor(index / rows))
+							},
+							alignment = { x = 1, y = 0 },
+							number    = 0xFFFFFF,
+							style     = 1,
+						}),
+						player:hud_add({
+							hud_elem_type = "text",
+							text      = string.format("%.2f ~ %.2f", tween.timer, tween.time),
+							position = { x = 0.5, y = 0 },
+							offset = {
+								x = (186 * (index % rows)),
+								y = 112 + (48 * math.floor(index / rows))
+							},
+							alignment = { x = 1, y = 0 },
+							number    = 0xFFFFFF,
+						}),
+					}
+				)
+			end
+
+			index = index + 1
+		end
+
+		if (index > show_max) then
+			table.insert(
+				visual.update,
+				player:hud_add({
+					hud_elem_type = "text",
+					text      = string.format("+%d more...", index - show_max),
+					position = { x = 0.5, y = 0 },
+					offset = {
+						x = (186 * (show_max % rows)),
+						y = 88 + (48 * math.floor(show_max / rows))
+					},
+					alignment = { x = 1, y = 0 },
+					number    = 0xFFFFFF,
+					style     = 1,
+				})
+			)
+		end
+
+		player:hud_change(visual.tween_title, "text", string.format("Running tweens [%d]", index))
+	end
+end
+
+
+minetest.register_globalstep(A)
+
+
+--- -----------------------------------------------------------
+
+
 --- show the list of all easing functions to this player.
+--- @param _ Debug
 --- @param player_name string
 function BeTweenApi.debug.show_functions (_, player_name)
 
@@ -118,6 +206,7 @@ end
 
 
 --- hide the list of all defined easing functions from this player.
+--- @param _ Debug
 --- @param player_name string
 function BeTweenApi.debug.hide_functions (_, player_name)
 
@@ -172,6 +261,7 @@ end
 
 
 --- hide the list of all active tweens from this player.
+--- @param _ Debug
 --- @param player_name string
 function BeTweenApi.debug.hide_tweens (_, player_name)
 	local visual = _.hud_running_tweens[player_name]
@@ -194,75 +284,5 @@ function BeTweenApi.debug.hide_tweens (_, player_name)
 end
 
 
-minetest.register_globalstep(
-	function (_)
-		for plr_name, visual in pairs(BeTweenApi.debug.hud_running_tweens) do
-			local player = minetest.get_player_by_name(plr_name)
-
-			for _, id in pairs(visual.update) do
-				player:hud_remove(id)
-			end
-
-			local index = 0
-			local rows = 3
-			local show_max = 17
-			visual.update = {}
-
-			for _, tween in pairs(BeTweenApi.active_tweens) do
-
-				if (index < show_max) then
-					table.insert_all(visual.update,
-						{
-							player:hud_add({
-								hud_elem_type = "text",
-								text      = string.format("[%2d] ~ %p",_ , tween),
-								position = { x = 0.5, y = 0 },
-								offset = {
-									x = (186 * (index % rows)),
-									y = 88 + (48 * math.floor(index / rows))
-								},
-								alignment = { x = 1, y = 0 },
-								number    = 0xFFFFFF,
-								style     = 1,
-							}),
-							player:hud_add({
-								hud_elem_type = "text",
-								text      = string.format("%.2f ~ %.2f", tween.timer, tween.time),
-								position = { x = 0.5, y = 0 },
-								offset = {
-									x = (186 * (index % rows)),
-									y = 112 + (48 * math.floor(index / rows))
-								},
-								alignment = { x = 1, y = 0 },
-								number    = 0xFFFFFF,
-							}),
-						}
-					)
-				end
-
-				index = index + 1
-			end
-
-			if (index > show_max) then
-				table.insert(
-					visual.update,
-					player:hud_add({
-						hud_elem_type = "text",
-						text      = string.format("+%d more...", index - show_max),
-						position = { x = 0.5, y = 0 },
-						offset = {
-							x = (186 * (show_max % rows)),
-							y = 88 + (48 * math.floor(show_max / rows))
-						},
-						alignment = { x = 1, y = 0 },
-						number    = 0xFFFFFF,
-						style     = 1,
-					})
-				)
-			end
-
-			player:hud_change(visual.tween_title, "text", string.format("Running tweens [%d]", index))
-		end
-	end
-)
+--- -----------------------------------------------------------
 

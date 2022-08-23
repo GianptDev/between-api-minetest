@@ -1,15 +1,20 @@
 
 
---[[
-	contain a list of interpolation functions,
-	each method require a start value, end value
-	and the position in time from start to end of the interpolation (0.0 to 1.0).
+--- -----------------------------------------------------------
 
-		interpolation.linear(0, 8, 0.5) -- 4
-		interpolation.ease_in(0, 8, 0.5) -- 2
-		interpolation.ease_out(0, 8, 0.5) -- 4.5
-]]
+
+--- contain a list of interpolation functions,
+--- each method require a start value, end value
+--- and the position in time from start to end of the interpolation (0.0 to 1.0).
+---
+--- 	interpolation.linear(0, 8, 0.5) -- 4
+--- 	interpolation.quadratic_in(0, 8, 0.5) -- 2
+--- 	interpolation.quadratic_out(0, 8, 0.5) -- 4.5
+--- @type table
 BeTweenApi.interpolation = {}
+
+
+--- -----------------------------------------------------------
 
 
 --- straight increment from x to y in time.
@@ -210,4 +215,7 @@ function BeTweenApi.interpolation.circular_in_out (x, y, t)
 	t = t - 2.0
 	return BeTweenApi.interpolation.linear(x, y, 0.5 * (math.sqrt(1.0 - t * t) + 1.0))
 end
+
+
+--- -----------------------------------------------------------
 

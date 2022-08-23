@@ -42,7 +42,7 @@
 - remove all spike_ functions in favor of a new property for the Tween.
 
 
-# 1.2 (wip)
+# 1.2a
 
 - creating icons to give the api a cooler look.
 - - Inspirations:
@@ -50,4 +50,8 @@
 - geometry dash characters are not used anymore for the function debug list in favor of a less boring image of a ball and a prism, they also have borders!
 - converted the syntax of every function in a more friendly way.
 - /between command now check if it has been called from a player or the server.
-
+- Added more luadocs.
+- New function added:
+- - version_name
+- renamed tween property:
+- - method	➡️ interpolation

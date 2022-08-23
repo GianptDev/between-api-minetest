@@ -7,7 +7,7 @@
    viewBox="0 0 32 32"
    version="1.1"
    id="svg5"
-   inkscape:version="1.2 (1:1.2.1+202207142221+cd75a1ee6d)"
+   inkscape:version="1.2 (dc2aedaf03, 2022-05-15)"
    sodipodi:docname="tween_icon.svg"
    inkscape:export-filename="tween_icon.png"
    inkscape:export-xdpi="96"
@@ -20,7 +20,7 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:cc="http://creativecommons.org/ns#"
    xmlns:dc="http://purl.org/dc/elements/1.1/"><title
-     id="title987">Tween icons</title><sodipodi:namedview
+     id="title987">Tween icon</title><sodipodi:namedview
      id="namedview7"
      pagecolor="#505050"
      bordercolor="#eeeeee"
@@ -32,12 +32,12 @@
      inkscape:document-units="px"
      showgrid="true"
      inkscape:zoom="12.506951"
-     inkscape:cx="6.5163764"
-     inkscape:cy="18.269841"
-     inkscape:window-width="1326"
-     inkscape:window-height="737"
-     inkscape:window-x="40"
-     inkscape:window-y="0"
+     inkscape:cx="11.753464"
+     inkscape:cy="12.153242"
+     inkscape:window-width="1304"
+     inkscape:window-height="745"
+     inkscape:window-x="54"
+     inkscape:window-y="-8"
      inkscape:window-maximized="1"
      inkscape:current-layer="layer5"
      showguides="true"><inkscape:grid
@@ -183,4 +183,4 @@
          r="1"
          inkscape:label="color" /></g></g><metadata
      id="metadata985"><rdf:RDF><cc:Work
-         rdf:about=""><dc:title>Tween icons</dc:title><dc:creator><cc:Agent><dc:title>GianptDev (_gianpy_)</dc:title></cc:Agent></dc:creator></cc:Work></rdf:RDF></metadata></svg>
+         rdf:about=""><dc:title>Tween icon</dc:title><dc:creator><cc:Agent><dc:title>GianptDev (_gianpy_)</dc:title></cc:Agent></dc:creator><dc:subject><rdf:Bag><rdf:li>BeTween Api</rdf:li></rdf:Bag></dc:subject></cc:Work></rdf:RDF></metadata></svg>
