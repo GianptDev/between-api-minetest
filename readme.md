@@ -13,8 +13,6 @@ This mod can be used by other mods for animations, currently tested for huds.
 
 ![](https://img.shields.io/github/license/GianptDev/between-api-minetest)
 
-<img width=500 src="resources/showcase.gif">
-
 ## Installation
 
 Just put this mod in your mod folder or in your custom mod.
@@ -28,3 +26,9 @@ Documentation about using the features of the api is written in the [docs](/docs
 If you want to add more easing functions or want to ask about a specific feature, ask in the [Issues](https://github.com/GianptDev/between-api-minetest/issues) panel.
 
 See also [CONTRIBUTING.md](/CONTRIBUTING.md)
+
+# preview
+
+<img width=500 src="resources/showcase.gif">
+
+[![Watch the video](https://i9.ytimg.com/vi_webp/QsXYjIiz_fw/mqdefault.webp?v=63072c7e&sqp=CKzanJgG&rs=AOn4CLAMlpZ0xSXNwdNtsb1GQJGYcegm6A)](https://youtu.be/QsXYjIiz_fw)

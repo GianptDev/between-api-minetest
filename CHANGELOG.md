@@ -42,7 +42,7 @@
 - remove all spike_ functions in favor of a new property for the Tween.
 
 
-# 1.2a
+# 1.2
 
 - creating icons to give the api a cooler look.
 - - Inspirations:
@@ -55,3 +55,8 @@
 - - version_name
 - renamed tween property:
 - - method	➡️ interpolation
+- changes release style:
+- - releases about using the mod will not include the resources/ folder.
+- - releases about the source code will include it instead.
+- made video preview 1
+

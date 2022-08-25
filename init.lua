@@ -19,7 +19,7 @@ BeTweenApi = {}
 --- @return string
 --- return the current version as a string.
 function BeTweenApi.version_name ()
-	return "1.2a"
+	return "1.2"
 end
 
 
