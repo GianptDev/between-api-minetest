@@ -23,7 +23,7 @@ Documentation about using the features of the api is written in the [docs](/docs
 
 # Media source
 
-Media I made for this api is published on google drive [here]([here](https://drive.google.com/drive/folders/1kp2ljRgsPWEx1zjvCLJ-GepSpDH2Cqzf?usp=sharing)) .
+Media I made for this api is published on google drive [here](https://drive.google.com/drive/folders/1kp2ljRgsPWEx1zjvCLJ-GepSpDH2Cqzf?usp=sharing) .
 
 ## Contribute
 
