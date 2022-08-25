@@ -1,6 +1,6 @@
 
 <p align=center>
-	<img src=resources/screenshot.svg width=320>
+	<img src="screenshot.png">
 </p>
 
 # BeTween Api

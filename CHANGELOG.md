@@ -58,5 +58,4 @@
 - changes release style:
 - - releases about using the mod will not include the resources/ folder.
 - - releases about the source code will include it instead.
-- made video preview 1
 
