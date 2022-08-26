@@ -9,6 +9,15 @@ This api implements a simple table called *BeTweenApi*, this table contains ever
 | [interpolation](interpolation.md) | This is a table that contain a set of interpolation functions that can be used by tweens or directly. |
 | [debug](debug.md) | This is a table that contain debug related stuff.
 
+
+## Functions
+
+
+| Name | Description |
+| ---- | ----------- |
+| version_name() : string | This method return the current version of the api. |
+
+
 ## Objects
 
 | Name | Description |
