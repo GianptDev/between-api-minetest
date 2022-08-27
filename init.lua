@@ -6,6 +6,7 @@
 --- @package BeTweenApi
 --- @author GianptDev
 --- @release 1.2
+--- @meta
 
 
 --- -----------------------------------------------------------

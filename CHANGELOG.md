@@ -59,3 +59,12 @@
 - - releases about using the mod will not include the resources/ folder.
 - - releases about the source code will include it instead.
 
+
+## 1.2 (again)
+
+
+- forgot to update docs (facepalm).
+- more luadocs.
+- now all callbacks must have as first argoument the tween.
+- movement property now can accept string names and indexes for his values.
+

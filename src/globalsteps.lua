@@ -5,28 +5,25 @@
 
 --- @param dtime number
 local function A (dtime)
+	--- @param tween Tween
 	for _, tween in pairs(BeTweenApi.active_tweens) do
 
 		-- calculate the position in time from the current to the target,
 		-- make sure to clamp the range.
 		local t = tween.timer / tween.time
+		t = (t < 0.0) and 0.0 or (t > 1.0) and 1.0 or t
 
 		if (t >= 0.0) then
-			if (t > 1.0) then
-				t = 1.0
-			end
 
 			-- store time to give to the function, it may get modifications.
 			local f_t = t
 
-			-- make movement go back in the middle.
-			if (tween.movement[3] == true) then
-				if (f_t >= 0.5) then
-					f_t = (1.0 - f_t) / 0.5
-				else
-					f_t = f_t * 2
-				end
-			end
+			-- check if mirror is enabled.
+			f_t = (tween.movement[3] == true)
+				--- if enabled make the movement twince faster and use the left time to turn back.
+				and ((f_t >= 0.5) and ((1.0 - f_t) / 0.5) or f_t * 2)
+				--- if not enabled use normal timer.
+				or f_t
 
 			-- calculate the interpolated value.
 			local value = tween.interpolation(
@@ -35,7 +32,7 @@ local function A (dtime)
 
 			-- call the step of the tween.
 			if (tween.on_step ~= nil) then
-				tween.on_step(value, tween)
+				tween.on_step(tween, value)
 			end
 		end
 

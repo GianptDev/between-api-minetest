@@ -6,6 +6,7 @@
 --- NOTE
 --- The list of running tween create and destroy hud elements every globalstep and this is the cause of flickering.
 --- A different and better update logic would fix the problem.
+--- @meta
 
 
 --- -----------------------------------------------------------
@@ -41,6 +42,7 @@ local function A (_)
 		local show_max = 17
 		visual.update = {}
 
+		--- @param tween Tween
 		for _, tween in pairs(BeTweenApi.active_tweens) do
 
 			if (index < show_max) then
@@ -172,7 +174,7 @@ function BeTweenApi.debug.show_functions (_, player_name)
 			4.0,
 			true,
 			{
-				on_step = function (step, tween)
+				on_step = function (tween, step)
 					local item = player:hud_get(icon)
 					player:hud_change(icon, "offset", { x = step, y = item.offset.y })
 				end,

@@ -4,7 +4,7 @@
 The tween object is a table that contain informations and callbacks about an interpolation animation that can be started or stopped with the tween itself.
 
 	BeTweenApi.tween(
-		method: function,
+		interpolation: function,
 		movement: {
 			number,		-- start value
 			number,		-- final value
@@ -17,7 +17,7 @@ The tween object is a table that contain informations and callbacks about an int
 
 This method will create a new Tween object.
 
-- *method* is the interpolation function to use, see [BeTweenApi.interpolation](interpolation.md) for functions to use.
+- *interpolation* is the interpolation function to use, see [BeTweenApi.interpolation](interpolation.md) for functions to use.
 You can define a custom function here too, make sure it ask for 3 argouments.
 
 - *movement* a list that contain the start position and the destination of the interpolation, the third argoument is a boolean and specify if the interpolation should mirror.

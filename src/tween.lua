@@ -3,8 +3,14 @@
 --- -----------------------------------------------------------
 
 
+--- @meta
+
+
+--- -----------------------------------------------------------
+
+
 --- This is a list of all active tween that are processed in the server.
---- @type table<integer, Tween>
+--- @type table<Tween>[]
 BeTweenApi.active_tweens = {}
 
 
@@ -16,14 +22,17 @@ BeTweenApi.active_tweens = {}
 --- @param _ Tween
 local function start (_)
 
+	--- do not run the tween twince.
 	if (_:is_running() == true) then
 		minetest.log("action", string.format("Tried to start tween '%p' twince.", _))
 		return
 	end
 
+	--- tween will start soon, add inside the tween loop.
 	table.insert(BeTweenApi.active_tweens, _)
 	minetest.log("verbose", string.format("Tween '%d' ~ '%p' is now running.", _:index(), _))
 
+	--- call the virtual.
 	if (_.on_start ~= nil) then
 		_.on_start(_)
 	end
@@ -36,22 +45,27 @@ end
 local function stop (_, reset)
 	local index = _:index()
 
+	--- set default reset value.
 	if (reset == nil) then
-		reset = false
+		reset = (reset == nil)
 	end
 	
+	--- index does not exist because the tween is not running.
 	if (index == nil) then
 		minetest.log("action", string.format("Tried to stop tween '%p' wich wasn't running.", _))
 		return
 	end
 
+	--- reset the timer.
 	if (reset == true) then
 		_.timer = 0
 	end
 
+	--- tween is stopped now, remove from tween loop.
 	table.remove(BeTweenApi.active_tweens, index)
 	minetest.log("verbose", string.format("Tween '%p' has been stopped.", _))
 
+	--- call the virtual.
 	if (_.on_stop ~= nil) then
 		_.on_stop(_)
 	end
@@ -62,6 +76,7 @@ end
 --- @param _ Tween
 --- @return boolean
 local function is_running (_)
+
 	for i, tween in pairs(BeTweenApi.active_tweens) do
 		if (tween == _) then
 			return true
@@ -105,52 +120,64 @@ end
 --- 	--- callbacks, each of then give the tween.
 --- 	on_start(tween)	--- executed on tween start.
 --- 	on_stop(tween)	--- executed on tween stop.
---- 	on_step(step, tween)	--- executed on tween interpolation step.
+--- 	on_step(tween, step: number)	--- executed on tween interpolation step.
 --- 	on_loop(tween)	--- executed every loop the tween complete, only called if loop is used.
---- @class Tween
---- @param interpolation function
---- @param movement table
+--- @param interpolation fun(x: number, y:number, t: number)
+--- @param movement { [1]: number, [2]: number, [3]: boolean } | { start: number, finish: number, mirror: boolean }
 --- @param time number
 --- @param loop boolean | integer false
---- @param callbacks table<function> nil
+--- @param callbacks { on_start: fun(tween: Tween), on_stop: fun(tween: Tween), on_step: fun(tween: Tween, step: number), on_loop: fun(tween: Tween) } nil
 --- @return Tween | nil
+--- @nodiscard
 function BeTweenApi.tween (interpolation, movement, time, loop, callbacks)
 
-	-- movement require two values, the initial position and the final position.
-	if ((movement[1] == nil) or (movement[2] == nil)) then
-		minetest.log("error", "Failed to make tween because movement does not contain enough values.")
+	--- if the user does not like indexes, allow to use keys.
+	--- this will check if the user used indexes or names as argouments.
+	for i, a in pairs({ [1] = "start", [2] = "finish", [3] = "mirror", }) do
+		movement[i] =
+			(movement[i] ~= nil) and movement[i] or
+			(movement[a] ~= nil) and movement[a] or nil
+		
+		--- if a required argoument is missing stop the creation of the tween.
+		if ((i <= 2) and (movement[i] == nil)) then
+			minetest.log("error", "Failed to make tween because movement contain incorrect argouments.")
+			return nil
+		end
+	end
+
+	if (time == nil) then
+		minetest.log("error", "Tween does not set his duration time.")
 		return nil
 	end
-
-	--- set default value for mirror interpolation.
-	if (movement[3] == nil) then
-		movement[3] = false
-	end
-
-	-- callbacks are optional.
+	
+	-- callbacks are optional but make sure is a table.
 	if (callbacks == nil) then
 		callbacks = {}
 	end
 
 	--- make the tween table.
 	--- @class Tween
+	--- @field interpolation fun(x: number, y: number, t: number)
+	--- @field movement { [1]: number, [2]: number, [3]: boolean }
+	--- @field time number
+	--- @field timer number this timer is used internally by the tween when running.
+	--- @field loop boolean | integer
+	--- @field on_start fun(tween: Tween) | nil
+	--- @field on_stop fun(tween: Tween) | nil
+	--- @field on_step fun(tween: Tween, step: number) | nil
+	--- @field on_loop fun(tween: Tween) | nil
 	local tween = {
-		interpolation = interpolation,	--- @type function
-		movement = movement,	--- @type table
-		time = time,	--- @type number
-		timer = 0.0,	--- @type number
-		loop = loop,	--- @type boolean | integer
-
-		--- @type function | nil
+		interpolation = interpolation,
+		movement = {
+			movement[1], movement[2],
+			(movement[3] ~= nil) and movement[3] or false
+		},
+		time = time,
+		timer = 0.0,
+		loop = (loop ~= nil) and loop or false,
 		on_start = callbacks.on_start,
-
-		--- @type function | nil
 		on_stop = callbacks.on_stop,
-
-		--- @type function | nil
 		on_step = callbacks.on_step,
-
-		--- @type function | nil
 		on_loop = callbacks.on_loop,
 
 		--- methods
