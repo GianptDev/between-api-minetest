@@ -3,31 +3,37 @@
 
 This api implements a simple table called *BeTweenApi*, this table contains everything implemented in this library.
 
-| Property      | Description |
-| ------------- | ----------- |
-| *active_tweens* | This is a list of all running tweens, when a tween has started is inserted in this list until is stopped. |
-| [interpolation](interpolation.md) | This is a table that contain a set of interpolation functions that can be used by tweens or directly. |
-| [debug](debug.md) | This is a table that contain debug related stuff.
+______
 
 
-## Functions
+## Features
 
+These are all tables inside the *BeTweenApi* object wich contain everything they describe.
 
-| Name | Description |
-| ---- | ----------- |
-| version_name() : string | This method return the current version of the api. |
+- [interpolation](interpolation.md)
+- - here are stored all build-in functions.
+- [debug](debug.md)
+- - all debug tools are stored here.
+- [tween](tween.md)
+- - This is an object able to get a configuration and run it to animate any movement automatically.
+- - If you want to make animations see this feature.
 
-
-## Objects
-
-| Name | Description |
-| ---- | ----------- |
-| [Tween](tween.md) | This is the tween itself, contain all the stuff you need for time interpolation. |
+______
 
 
 ## Commands
 
-| Name | Description |
-| ---- | ----------- |
-| /between | Show a debug hud to display a topic of the api, require debug privileges to be executed. |
+	/between <functions | tweens>
+
+Show a debug hud to display a topic of the api, require debug privileges to be executed.
+
+
+______
+
+
+## Functions and methods
+
+	version_name() : string
+
+This method return the current version of the api, that's it.
 

@@ -112,11 +112,6 @@ end
 
 --- create a tween object that will interpolate an intial value to a destination in time, each value calculated in time are created from the function the tween is using, after the tween has been created it has run by calling :start()
 ---
---- 	--- movement values, they use index NOT names.
---- 	{
---- 		begin: number, destination: number, mirror: boolean
---- 	}
----
 --- 	--- callbacks, each of then give the tween.
 --- 	on_start(tween)	--- executed on tween start.
 --- 	on_stop(tween)	--- executed on tween stop.

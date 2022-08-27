@@ -3,39 +3,76 @@
 
 The tween object is a table that contain informations and callbacks about an interpolation animation that can be started or stopped with the tween itself.
 
-	BeTweenApi.tween(
-		interpolation: function,
-		movement: {
-			number,		-- start value
-			number,		-- final value
-			boolean = false	-- mirror mode
-			},
-		time: float,
-		loop: bool | int,
-		callbacks: table
-		) : Tween
+	BeTweenApi.tween(interpolation: function, movement: Movement, time: float, loop: bool, callbacks: TweenEvents) : Tween
 
 This method will create a new Tween object.
 
 - *interpolation* is the interpolation function to use, see [BeTweenApi.interpolation](interpolation.md) for functions to use.
 You can define a custom function here too, make sure it ask for 3 argouments.
 
-- *movement* a list that contain the start position and the destination of the interpolation, the third argoument is a boolean and specify if the interpolation should mirror.
-
-- - When mirror is enabled the interpolation will become twince faster and reach the destination in half of the time, the other half is used to repeat the interpolation but reversed (from end to start).
+- *movement* movement data from the initial position to the end, see [Movement](#Movement)
 
 - *time* is the time in seconds of how much this tween must run.
 
 - *loop* set if the tween should loop his interpolation when he finish it, if is true the tween will loop forever, if is a number the tween will loop for the specified amount.
 
-- *callbacks* is a list of methods called on Tween events, each callback give the tween itself.
+- *callbacks* contain all functions to execute on specific events of the tween, see [TweenEvents](#TweenEvents)
+
+
+# Movement
+
+This data contain initial and final position of the interpolation, every property with a default value does not require to be set.
+
+| Property | Default | Description |
+| -------- | ----------- | ------- |
+| start: number | | is the initial position of the interpolation. |
+| finish: number | | is the final position of the interpolation. |
+| mirror: boolean | false | if enabled will make the interpolation move twince faster and use half of the time to repeat the animation in reverse. |
+
+
+```lua
+	{ start = 0, finish = 64 }	--- from 0 to 64 in time.
+	{ start = 0, finish = 64, mirror = true }  --- same as before but also repeat in reverse.
+	{ 0, 64 }  --- you can write it like this too.
+	{ 0, 64, true }  --- same as second line.
+```
+
+
+# TweenEvents
+
+These are all functions called on specific events, you give this table to a tween to make it execute your own code.
+
+Each function receive the tween itself as first argoument, you can call any tween method from there.
 
 | Callback | Description |
 | - | - |
 | on_start(tween: Tween) | Called when the Tween:start() is executed and the Tween will soon start to run his steps. |
 | on_end(tween: Tween) | Called when the Tween:stop() is executed or when the tween has finished to run. |
 | on_loop(tween: Tween) | Called every time the tween is looping, only called if loop is used.. |
-| on_step(value: number, tween: Tween) | Called each step of the interpolation in the defined time, value is the result value. | 
+| on_step(tween: Tween, value: number) | Called each step of the interpolation in the defined time, value is the result value. | 
+
+```lua
+	{
+		on_start = function (tween)
+			minetest.log("Hello Tween!")
+		end,
+		on_end = function (tween)
+			minetest.log("Goodbye Tween!")
+		end,
+		on_loop = function (tween)
+			minetest.log("Boom, 360 loop!")
+		end,
+		on_step = function (tween, value)
+			--- do something with value.
+		end,
+	}
+```
+
+______
+
+
+# Functions and methods
+
 
 	Tween:start()
 
@@ -65,20 +102,65 @@ Get the index position of the Tween inside the list, if the Tween isn't running 
 
 ______
 
-Usage example:
 
+# Examples
+
+
+```lua
+
+	--- store the tween in a variable.
 	local tween = InterpolationApi.tween(
-		InterpolationApi.interpolation.linear,	-- linear movement
-		{ 0, 64, false },	-- from 0 to 64, don't mirror
-		4.0,		-- in 4 seconds
-		true,		-- repeat after the time
+		InterpolationApi.interpolation.quadratic_in,
+		{ 0, 64, false },
+		8.0, false,
 		{
-			-- execute this method each step in time.
-			on_step = function (step, tween)
-				local item = player:hud_get(icon)
-				player:hud_change(icon, "offset", { x = step, y = 32 })
+			on_start = function (tween)
+				minetest.log("Interpolation start!")
+			end,
+			on_step = function (tween, value)
+				minetest.log(tostring(value))
 			end
 		}
 	)
 
-	tween:start()	-- make sure to start the tween.
+	--- start the tween.
+	tween:start()
+```
+
+
+```lua
+	InterpolationApi.tween(
+		InterpolationApi.interpolation.linear,	--- linear movement
+		{ start = 0, finish = 64 },	--- from 0 to 64, don't mirror
+		4.0,		--- in 4 seconds
+		true,		--- repeat after the time
+		{
+			--- execute this method each step in time.
+			on_step = function (tween, value)
+				local item = player:hud_get(icon)
+				player:hud_change(icon, "offset", { x = value, y = 32 })
+			end
+		}
+	):start()	--- you can also start the tween without creating a variable.
+```
+
+
+______
+
+
+# Extra
+
+Extra informations about the Tween.
+
+>## Tween loop
+>
+>The tween execute his loop using the server global steps, so his execution is synced to each player, but that's mean it will slow down when the server is lagging.
+
+>## Tween list
+>
+>When a tween is running, by executing his :start() method) will insert itself in the *active_tweens* list inside the api.
+>
+>When the tween is stopped, paused, or has finished his interpolation job he will remove itself from the list.
+>
+>Tween in the list are only tween that **are** running.
+

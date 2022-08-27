@@ -55,16 +55,18 @@
 - - version_name
 - renamed tween property:
 - - method	➡️ interpolation
-- changes release style:
-- - releases about using the mod will not include the resources/ folder.
-- - releases about the source code will include it instead.
 
 
-## 1.2 (again)
+## 1.2 (fix)
 
 
-- forgot to update docs (facepalm).
+- forgot to update docs (facepalm), docs now are updated.
 - more luadocs.
 - now all callbacks must have as first argoument the tween.
 - movement property now can accept string names and indexes for his values.
+- fixes
+- - fixed a bug that allowed to crash the server if a player leave the game with the interpolation hud enabled.
+- all the stuff inside the resources/ folder is media and is not usefull for the project to run.
+- - it will be move to an external drive (still public and accessible).
+- - that folder now will only contain media used by the readme or external links.
 

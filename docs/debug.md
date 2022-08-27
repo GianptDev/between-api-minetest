@@ -3,10 +3,24 @@
 
 This is a table that contain debug visual stuff.
 
+
+______
+
+
 | Property | Description |
 | -------- | ----------- |
 | hud_interpolation | List of all players that use the function list hud. |
 | hud_running_tweens | List of all players that use the tween list hud. |
+
+
+______
+
+
+## Functions and methods
+
+
+______
+
 
 	debug:show_functions(player_name: string)
 

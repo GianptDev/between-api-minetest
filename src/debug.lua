@@ -17,11 +17,11 @@
 BeTweenApi.debug = {
 
 	--- list of all players that are using the debug functions view.
-	--- @type table<string, any>
+	--- @type { [string]: any }
 	hud_interpolation = {},
 
 	--- list of all players that are using the debug tween view.
-	--- @type table<string, any>
+	--- @type { [string]: any }
 	hud_running_tweens = {},
 }
 
@@ -29,7 +29,7 @@ BeTweenApi.debug = {
 --- -----------------------------------------------------------
 
 
-local function A (_)
+local function global_step (time)
 	for plr_name, visual in pairs(BeTweenApi.debug.hud_running_tweens) do
 		local player = minetest.get_player_by_name(plr_name)
 
@@ -101,7 +101,24 @@ local function A (_)
 end
 
 
-minetest.register_globalstep(A)
+--- this functions is to make sure all debug stuff is cleared when a player exit.
+local function player_leave (player, time_out)
+	local plr_name = player:get_player_name()
+	local hud_interpolation = BeTweenApi.debug.hud_interpolation[plr_name]
+
+	BeTweenApi.debug.hud_interpolation[plr_name] = nil
+	BeTweenApi.debug.hud_running_tweens[plr_name] = nil
+
+	if (hud_interpolation ~= nil) then
+		for _, tween in pairs(hud_interpolation.tweens) do
+			tween:stop()
+		end
+	end
+end
+
+
+minetest.register_globalstep(global_step)
+minetest.register_on_leaveplayer(player_leave)
 
 
 --- -----------------------------------------------------------
@@ -168,11 +185,11 @@ function BeTweenApi.debug.show_functions (_, player_name)
 			style     = 1,
 		})
 
+		--- make the loop animation for each function.
 		visual.tweens[_] = BeTweenApi.tween(
 			interpolation,
 			{ start, finish },
-			4.0,
-			true,
+			4.0, true,
 			{
 				on_step = function (tween, step)
 					local item = player:hud_get(icon)
