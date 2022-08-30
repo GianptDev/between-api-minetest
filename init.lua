@@ -4,8 +4,9 @@
 
 
 --- @package BeTweenApi
---- @author GianptDev
---- @release 1.2
+--- @license MIT
+--- @author GianptDev (_gianpy_)
+--- @release 1.2.1
 --- @meta
 
 
@@ -20,7 +21,7 @@ BeTweenApi = {}
 --- return the current version as a string.
 --- @return string
 function BeTweenApi.version_name ()
-	return "1.2"
+	return "1.2.1"
 end
 
 

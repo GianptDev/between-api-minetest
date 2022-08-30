@@ -70,3 +70,10 @@
 - - it will be move to an external drive (still public and accessible).
 - - that folder now will only contain media used by the readme or external links.
 
+
+## 1.2.1
+
+
+- figured out a cleaner way to make objects in lua, now that old definition hell has been cleared.
+- replaced some log types from verbose to warning and action.
+
