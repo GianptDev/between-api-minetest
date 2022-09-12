@@ -3,34 +3,29 @@
 --- -----------------------------------------------------------
 
 
---- NOTE
---- The list of running tween create and destroy hud elements every globalstep and this is the cause of flickering.
---- A different and better update logic would fix the problem.
 --- @meta
+--- debug features for the clients, only if they have the debug privileges.
 
 
 --- -----------------------------------------------------------
 
 
---- contain debug related content.
---- @class Debug
-BeTweenApi.debug = {
+--- list of all players that are using the debug functions view.
+--- @type { [string]: any }
+local hud_interpolation = {}
 
-	--- list of all players that are using the debug functions view.
-	--- @type { [string]: any }
-	hud_interpolation = {},
 
-	--- list of all players that are using the debug tween view.
-	--- @type { [string]: any }
-	hud_running_tweens = {},
-}
+--- list of all players that are using the debug tween view.
+--- @type { [string]: any }
+local hud_running_tweens = {}
 
 
 --- -----------------------------------------------------------
 
 
+--- main loop of debug updates.
 local function global_step (time)
-	for plr_name, visual in pairs(BeTweenApi.debug.hud_running_tweens) do
+	for plr_name, visual in pairs(hud_running_tweens) do
 		local player = minetest.get_player_by_name(plr_name)
 
 		for _, id in pairs(visual.update) do
@@ -43,7 +38,7 @@ local function global_step (time)
 		visual.update = {}
 
 		--- @param tween Tween
-		for _, tween in pairs(BeTweenApi.active_tweens) do
+		for _, tween in ipairs(BeTweenApi.get_active_tweens()) do
 
 			if (index < show_max) then
 				table.insert_all(visual.update,
@@ -104,10 +99,10 @@ end
 --- this functions is to make sure all debug stuff is cleared when a player exit.
 local function player_leave (player, time_out)
 	local plr_name = player:get_player_name()
-	local hud_interpolation = BeTweenApi.debug.hud_interpolation[plr_name]
+	local hud_interpolation = hud_interpolation[plr_name]
 
-	BeTweenApi.debug.hud_interpolation[plr_name] = nil
-	BeTweenApi.debug.hud_running_tweens[plr_name] = nil
+	hud_interpolation[plr_name] = nil
+	hud_running_tweens[plr_name] = nil
 
 	if (hud_interpolation ~= nil) then
 		for _, tween in pairs(hud_interpolation.tweens) do
@@ -125,12 +120,11 @@ minetest.register_on_leaveplayer(player_leave)
 
 
 --- show the list of all easing functions to this player.
---- @param _ Debug
 --- @param player_name string
-function BeTweenApi.debug.show_functions (_, player_name)
+local function show_functions (player_name)
 
 	-- hud already enabled.
-	if (_.hud_interpolation[player_name] ~= nil) then
+	if (hud_interpolation[player_name] ~= nil) then
 		return
 	end
 
@@ -143,7 +137,7 @@ function BeTweenApi.debug.show_functions (_, player_name)
 		tweens = {},	-- contain list of interpolation name and hud items used.
 	}
 
-	_.hud_interpolation[player_name] = visual
+	hud_interpolation[player_name] = visual
 
 	for _, interpolation in pairs(BeTweenApi.interpolation) do
 		local y = 64 + (24 * index)
@@ -186,7 +180,7 @@ function BeTweenApi.debug.show_functions (_, player_name)
 		})
 
 		--- make the loop animation for each function.
-		visual.tweens[_] = BeTweenApi.tween(
+		visual.tweens[_] = BeTweenApi.Tween(
 			interpolation,
 			{ start, finish },
 			4.0, true,
@@ -227,38 +221,37 @@ end
 
 
 --- hide the list of all defined easing functions from this player.
---- @param _ Debug
 --- @param player_name string
-function BeTweenApi.debug.hide_functions (_, player_name)
+local function hide_functions (player_name)
 
 	-- hud already disabled.
-	if (_.hud_interpolation[player_name] == nil) then
+	if (hud_interpolation[player_name] == nil) then
 		return
 	end
 
 	local player = minetest.get_player_by_name(player_name)
 
-	player:hud_remove(_.hud_interpolation[player_name].title)
-	for _, tween in pairs(_.hud_interpolation[player_name].tweens) do
+	player:hud_remove(hud_interpolation[player_name].title)
+	for _, tween in pairs(hud_interpolation[player_name].tweens) do
 		tween:stop()
 	end
 
-	_.hud_interpolation[player_name] = nil
+	hud_interpolation[player_name] = nil
 end
 
 
 --- show the list of all active tweens to this player.
 --- @param player_name string
-function BeTweenApi.debug.show_tweens (_, player_name)
+local function show_tweens (player_name)
 
 	-- hud already enabled.
-	if (_.hud_running_tweens[player_name] ~= nil) then
+	if (hud_running_tweens[player_name] ~= nil) then
 		return
 	end
 
 	local player = minetest.get_player_by_name(player_name)
 
-	_.hud_running_tweens[player_name] = {
+	hud_running_tweens[player_name] = {
 		title = player:hud_add({
 			hud_elem_type = "text",
 			text      = "BeTween Api Debug : Tweens",
@@ -282,10 +275,9 @@ end
 
 
 --- hide the list of all active tweens from this player.
---- @param _ Debug
 --- @param player_name string
-function BeTweenApi.debug.hide_tweens (_, player_name)
-	local visual = _.hud_running_tweens[player_name]
+local function hide_tweens (player_name)
+	local visual = hud_running_tweens[player_name]
 
 	-- hud already disabled.
 	if (visual == nil) then
@@ -301,8 +293,60 @@ function BeTweenApi.debug.hide_tweens (_, player_name)
 		player:hud_remove(id)
 	end
 
-	_.hud_running_tweens[player_name] = nil
+	hud_running_tweens[player_name] = nil
 end
+
+
+--- -----------------------------------------------------------
+
+
+--- @param name string
+--- @param param string
+local function between (name, param)
+	local player = minetest.get_player_by_name(name)
+	
+	--- check if the command is called from a player or from the server.
+	--- only players can have the debug hud.
+	if (player ~= nil) then
+		param = string.lower(param)
+
+		if (param == "functions") then
+			if (hud_interpolation[name] == nil) then
+				show_functions(name)
+			else
+				hide_functions(name)
+			end
+
+			return true
+		
+		elseif (param == "tweens") then
+			if (hud_running_tweens[name] == nil) then
+				show_tweens(name)
+			else
+				hide_tweens(name)
+			end
+
+			return true
+		end
+	end
+
+	--- Give the details of the current version.
+	return true, "BeTween Api " .. BeTweenApi.version_name()
+end
+
+
+-- register simple debug command.
+minetest.register_chatcommand(
+	"between",
+	{
+		params = "[ functions | tweens ]",
+		description = "Display current version of the api or show a debug hud about a topic, see the parameters for the topics.",
+		privs = {
+			debug = true,
+		},
+		func = between
+	}
+)
 
 
 --- -----------------------------------------------------------

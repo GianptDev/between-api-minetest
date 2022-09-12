@@ -76,4 +76,12 @@
 
 - figured out a cleaner way to make objects in lua, now that old definition hell has been cleared.
 - replaced some log types from verbose to warning and action.
+- global steps has been merged to init.lua, now it will be used as the loop for the api.
+- active tween list is now private, can't be edited directly, only a copy of the list can be obtained.
+- added new functions for general math porpouse:
+- - clamp
+- - wrap
+- - snap
+- removed the debug property from the api, it was totally useless.
+- tween has been renamed to uppercase Tween :|
 

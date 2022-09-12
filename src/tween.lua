@@ -4,6 +4,7 @@
 
 
 --- @meta
+--- this module implement the Tween object.
 
 
 --- -----------------------------------------------------------
@@ -11,22 +12,13 @@
 
 --- This is a list of all active tween that are processed in the server.
 --- @type table<Tween>[]
-BeTweenApi.active_tweens = {}
+local active_tweens = {}
 
 
 --- -----------------------------------------------------------
 
 
 --- @class Tween
---- @field interpolation fun(x: number, y: number, t: number)
---- @field movement { [1]: number, [2]: number, [3]: boolean }
---- @field time number
---- @field timer number
---- @field loop boolean|integer
---- @field on_start fun(tween: Tween)
---- @field on_stop fun(tween: Tween)
---- @field on_step fun(tween: Tween, step: number)
---- @field on_loop fun(tween: Tween)
 local Tween = {}
 
 
@@ -44,7 +36,7 @@ local Tween = {}
 --- @param callbacks { on_start: fun(tween: Tween), on_stop: fun(tween: Tween), on_step: fun(tween: Tween, step: number), on_loop: fun(tween: Tween) } nil
 --- @return Tween | nil
 --- @nodiscard
-function BeTweenApi.tween (interpolation, movement, time, loop, callbacks)
+function BeTweenApi.Tween (interpolation, movement, time, loop, callbacks)
 
 	--- if the user does not like indexes, allow to use keys.
 	--- this will check if the user used indexes or names as argouments.
@@ -66,7 +58,7 @@ function BeTweenApi.tween (interpolation, movement, time, loop, callbacks)
 	end
 	
 	--- create the Tween object and set all his values.
-	--- @type Tween
+	--- @class Tween
 	local tween = {}
 
 	--- yeah, basically it just copy everything defined on Tween.
@@ -111,7 +103,7 @@ function Tween:start ()
 	end
 
 	--- tween will start soon, add inside the tween loop.
-	table.insert(BeTweenApi.active_tweens, self)
+	table.insert(active_tweens, self)
 	minetest.log("action", ("Tween '%d' ~ '%p' is now running."):format(self:index(), self))
 
 	--- call the virtual.
@@ -143,7 +135,7 @@ function Tween:stop (reset)
 	end
 
 	--- tween is stopped now, remove from tween loop.
-	table.remove(BeTweenApi.active_tweens, index)
+	table.remove(active_tweens, index)
 	minetest.log("action", ("Tween '%p' has been stopped."):format(self))
 
 	--- call the virtual.
@@ -157,7 +149,7 @@ end
 --- @return boolean
 function Tween:is_running ()
 
-	for i, tween in pairs(BeTweenApi.active_tweens) do
+	for i, tween in pairs(active_tweens) do
 		if (tween == self) then
 			return true
 		end
@@ -172,7 +164,7 @@ end
 function Tween:index ()
 	local index = 1
 	
-	for i, tween in pairs(BeTweenApi.active_tweens) do
+	for i, tween in pairs(active_tweens) do
 
 		if (tween == self) then
 			return index
@@ -183,6 +175,25 @@ function Tween:index ()
 
 	return nil
 end
+
+
+--- -----------------------------------------------------------
+
+
+--- return a copy the list of currenlty running tweens.
+--- @return table<Tween>[] tweens
+function BeTweenApi.get_active_tweens ()
+	local tweens = {}
+
+	for _, tween in ipairs(active_tweens) do
+		table.insert(tweens, tween)
+	end
+
+	return tweens
+end
+
+
+return active_tweens
 
 
 --- -----------------------------------------------------------

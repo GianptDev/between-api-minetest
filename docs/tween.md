@@ -3,7 +3,7 @@
 
 The tween object is a table that contain informations and callbacks about an interpolation animation that can be started or stopped with the tween itself.
 
-	BeTweenApi.tween(interpolation: function, movement: Movement, time: float, loop: bool, callbacks: TweenEvents) : Tween
+	BeTweenApi.Tween(interpolation: function, movement: Movement, time: float, loop: bool, callbacks: TweenEvents) : Tween
 
 This method will create a new Tween object.
 

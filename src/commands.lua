@@ -3,6 +3,13 @@
 --- -----------------------------------------------------------
 
 
+--- @meta
+--- this module implements debug commands, that's it.
+
+
+--- -----------------------------------------------------------
+
+
 --- @param name string
 --- @param param string
 local function between (name, param)
