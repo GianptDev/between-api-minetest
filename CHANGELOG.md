@@ -84,4 +84,5 @@
 - - snap
 - removed the debug property from the api, it was totally useless.
 - tween has been renamed to uppercase Tween :|
+- removed the old documentation with a new one made with Read the Docs, beautiful!
 

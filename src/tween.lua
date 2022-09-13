@@ -114,13 +114,13 @@ end
 
 
 --- stop the tween to work by removing it from the active list.
---- @param reset boolean false
+--- @param reset? boolean if true the tween timer is resetted, default is false.
 function Tween:stop (reset)
 	local index = self:index()
 
 	--- set default reset value.
 	if (reset == nil) then
-		reset = (reset == nil)
+		reset = false
 	end
 	
 	--- index does not exist because the tween is not running.
@@ -164,7 +164,7 @@ end
 function Tween:index ()
 	local index = 1
 	
-	for i, tween in pairs(active_tweens) do
+	for _, tween in ipairs(active_tweens) do
 
 		if (tween == self) then
 			return index

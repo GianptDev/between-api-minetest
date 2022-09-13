@@ -19,7 +19,7 @@ Just put this mod in your mod folder or in your custom mod.
 
 ## Wiki
 
-Documentation about using the features of the api is written in the [docs](/docs) folder.
+Look [here](docs/) for a documentation of the api, it include examples.
 
 # Media source
 

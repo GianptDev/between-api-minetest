@@ -27,7 +27,7 @@ local path = minetest.get_modpath(minetest.get_current_modname())
 
 
 -- import all the content.
-dofile(path .. "/src/functions.lua")
+dofile(path .. "/src/api.lua")
 dofile(path .. "/src/interpolation.lua")
 
 --- @type table<Tween>[]
