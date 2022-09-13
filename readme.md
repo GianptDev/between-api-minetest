@@ -13,7 +13,7 @@ This mod can be used by other mods for animations, currently tested for huds.
 
 ![](https://img.shields.io/github/license/GianptDev/between-api-minetest)
 
-![](https://img.shields.io/readthedocs/between-api-minetest?style=plastic)
+[![](https://img.shields.io/readthedocs/between-api-minetest?style=plastic)](https://between-api-minetest.readthedocs.io/en/latest/)
 
 ## Installation
 
