@@ -19,15 +19,7 @@ Just put this mod in your mod folder and add the dependency in you game/mod.
 
 ## Wiki
 
-<<<<<<< HEAD
 See the [docs](https://between-api-minetest.readthedocs.io/en/latest/).
-=======
-Look [here](https://between-api-minetest.readthedocs.io/en/latest/) for a documentation of the api, it include examples.
-
-# Media source
-
-Media I made for this api is published on google drive [here](https://drive.google.com/drive/folders/1kp2ljRgsPWEx1zjvCLJ-GepSpDH2Cqzf?usp=sharing) .
->>>>>>> 6764d96dd732f700025594b0e4594dad9e22125f
 
 ## Contribute
 
