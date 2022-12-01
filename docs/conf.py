@@ -1,7 +1,5 @@
 # Configuration file for the Sphinx documentation builder.
 
-# -- Project information
-
 project = 'BeTween Api'
 copyright = '2022, _gianpy_'
 author = 'GianptDev (_gianpy_)'
@@ -29,7 +27,7 @@ templates_path = ['_templates']
 
 # -- Options for HTML output
 
-#html_theme = 'sphinx_rtd_theme'
+html_theme = 'sphinx_rtd_theme'
 
 # -- Options for EPUB output
 epub_show_urls = 'footnote'

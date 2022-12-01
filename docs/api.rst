@@ -1,15 +1,41 @@
 
 Api
+<<<<<<< HEAD
 ===
 
 
 This is everything directly defined under the **BeTweenApi** namespace.
+=======
+=========
+
+
+Everything below is defined under the **BeTweenApi** namespace, wich is a table.
+
+
+Classes
+-------
+
+
+* `Tween <./Tween.html>`_
+
+
+Attributes
+----------
+
+
+.. py:attribute:: BeTweenApi.interpolation
+
+	see `interpolations <./interpolations.html>`_
+
+	:type: table<string, function>
+>>>>>>> 6764d96dd732f700025594b0e4594dad9e22125f
 
 
 Functions
 ---------
 
 
+<<<<<<< HEAD
 .. py:function:: BeTweenApi.getName ()
 
 	Return the name and version of the api, such as "BeTweenApi 1.0".
@@ -27,12 +53,36 @@ Functions
 	:type y: number
 	:param t: The position in range 0.0 to 1.0
 	:type t: number
+=======
+.. py:function:: BeTweenApi.version_name ()
+
+	return the current version as a string.
+
+	:return: This is the syntax used in version names "1.0" or "1.0.1" .
+	:rtype: string
+
+
+.. py:function:: BeTweenApi.clamp (value, min, max)
+
+	keep a number value in between of min and max, if the value is already in between is directly returned.
+
+	:param value: the value to clamp.
+	:type value: number
+	:param min: the minimun this function can return.
+	:type min: number
+	:param max: the maximum this function can return.
+	:type max: number
+>>>>>>> 6764d96dd732f700025594b0e4594dad9e22125f
 	:rtype: number
 
 
 .. py:function:: BeTweenApi.wrap (value, min, max)
 
+<<<<<<< HEAD
 	Make the value flow around the range of min and max.
+=======
+	make the value flow around the range of min and max.
+>>>>>>> 6764d96dd732f700025594b0e4594dad9e22125f
 
 	:param value: the value to wrap.
 	:type value: number
@@ -43,9 +93,19 @@ Functions
 	:rtype: number
 
 
+<<<<<<< HEAD
 .. py:function:: BeTweenApi.snap (value, snap)
 
 	Round the value to the nearest point of snap.
+=======
+.. note::
+	If min and max are the same value is directly returned.
+
+
+.. py:function:: BeTweenApi.snap (value, snap)
+
+	round the value to the nearest point of snap.
+>>>>>>> 6764d96dd732f700025594b0e4594dad9e22125f
 
 	:param value: the value to snap.
 	:type value: number
@@ -53,6 +113,7 @@ Functions
 	:type snap: number
 	:rtype: number
 
+<<<<<<< HEAD
 
 .. py:function:: BeTweenApi.getTweenQueueCount ()
 
@@ -278,3 +339,17 @@ Constants
 		end
 	)
 
+=======
+.. note::
+	If *0.0* is given to the snap amount the function will always return *0.0* .
+
+
+.. py:function:: BeTweenApi.get_active_tweens ()
+
+	return a copy the list of currenlty running tweens.
+
+	:rtype: table<Tween>[]
+
+	.. note::
+		this will be a copy of the list, it will not be updated and changing it will not interfeer with the orinal list because is used in the api loop.
+>>>>>>> 6764d96dd732f700025594b0e4594dad9e22125f
