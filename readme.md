@@ -11,8 +11,6 @@ This is a mod that implements interpolation functions and tween for animation in
 ![](https://img.shields.io/github/license/GianptDev/between-api-minetest)
 [![](https://img.shields.io/readthedocs/between-api-minetest)](https://between-api-minetest.readthedocs.io/en/latest/)
 
-[![](https://img.shields.io/readthedocs/between-api-minetest?style=plastic)](https://between-api-minetest.readthedocs.io/en/latest/)
-
 ## Installation
 
 Just put this mod in your mod folder and add the dependency in you game/mod.
