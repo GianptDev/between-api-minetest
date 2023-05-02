@@ -3,6 +3,10 @@
 	<img src="screenshot.png">
 </p>
 
+# WARNING
+
+This is an older version of the library wich has been updated and rebranded and moved to another repository [here](https://github.com/GianptDev/minetest-be2een-api). DO NOT USE THIS VERSION, wich will not get any update.
+
 # BeTween Api
 
 This is a mod that implements interpolation functions and tween for animation in the game [minetest](https://www.minetest.net/).
